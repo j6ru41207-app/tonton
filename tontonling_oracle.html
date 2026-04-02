@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>通通靈 · 觀音百首靈籤</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;700;900&family=Ma+Shan+Zheng&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'Noto Serif TC',serif;
+  background-color:#F5EDD6;
+  background-image:
+    repeating-linear-gradient(0deg,transparent,transparent 28px,rgba(180,140,20,0.05) 28px,rgba(180,140,20,0.05) 29px),
+    repeating-linear-gradient(90deg,transparent,transparent 28px,rgba(180,140,20,0.05) 28px,rgba(180,140,20,0.05) 29px),
+    radial-gradient(ellipse at 20% 20%,rgba(200,151,26,0.08) 0%,transparent 55%),
+    radial-gradient(ellipse at 80% 80%,rgba(200,151,26,0.07) 0%,transparent 55%);
+  min-height:100vh;
+  padding:28px 16px 48px;
+}
+.page-frame{
+  max-width:480px;
+  margin:0 auto;
+  border:2px solid rgba(180,140,20,0.45);
+  border-radius:18px;
+  padding:2px;
+  position:relative;
+}
+.page-frame::before{
+  content:'';
+  position:absolute;
+  inset:7px;
+  border:0.5px solid rgba(180,140,20,0.22);
+  border-radius:13px;
+  pointer-events:none;
+  z-index:0;
+}
+.inner{
+  background:rgba(249,242,215,0.72);
+  border-radius:16px;
+  overflow:hidden;
+  position:relative;
+  z-index:1;
+  backdrop-filter:blur(2px);
+}
+/* HEADER */
+.hdr{
+  background:#8B1A1A;
+  padding:22px 24px 18px;
+  text-align:center;
+  position:relative;
+  border-bottom:2px solid #C8971A;
+}
+.corner{position:absolute;width:22px;height:22px;border-color:#C8971A;border-style:solid;opacity:0.55;}
+.c-tl{top:9px;left:9px;border-width:1.5px 0 0 1.5px;}
+.c-tr{top:9px;right:9px;border-width:1.5px 1.5px 0 0;}
+.c-bl{bottom:9px;left:9px;border-width:0 0 1.5px 1.5px;}
+.c-br{bottom:9px;right:9px;border-width:0 1.5px 1.5px 0;}
+.logo-title{
+  font-family:'Ma Shan Zheng','Noto Serif TC',serif;
+  font-size:40px;
+  color:#E8B84B;
+  letter-spacing:10px;
+  text-shadow:0 0 24px rgba(232,184,75,0.35);
+  line-height:1.1;
+}
+.logo-diamond{
+  display:inline-block;
+  width:8px;height:8px;
+  background:#C8971A;
+  transform:rotate(45deg);
+  margin:6px auto 4px;
+  opacity:0.6;
+}
+.logo-sub{font-size:10px;color:rgba(232,184,75,0.5);letter-spacing:5px;}
+/* DATE BAR */
+.date-bar{
+  background:rgba(180,140,20,0.1);
+  border-bottom:0.5px solid rgba(180,140,20,0.22);
+  padding:8px 20px;
+  display:flex;align-items:center;justify-content:center;gap:14px;
+}
+.date-pill{font-size:11px;color:#7A5C00;letter-spacing:2px;}
+.dot{width:4px;height:4px;border-radius:50%;background:rgba(180,140,20,0.35);}
+/* BODY */
+.body{padding:20px 20px 24px;}
+.sec-head{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+.sec-line{flex:1;height:0.5px;background:rgba(180,140,20,0.3);}
+.sec-lbl{font-size:10px;color:#A07820;letter-spacing:4px;white-space:nowrap;}
+/* INTENT GRID */
+.i-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:16px;}
+.i-btn{
+  background:rgba(180,140,20,0.07);
+  border:0.5px solid rgba(180,140,20,0.28);
+  border-radius:7px;padding:9px 3px;
+  font-size:11px;font-family:'Noto Serif TC',serif;
+  color:#8B6914;cursor:pointer;text-align:center;
+  letter-spacing:0.5px;line-height:1.5;transition:all .18s;
+}
+.i-btn:hover,.i-btn.active{background:rgba(139,26,26,0.11);border-color:#8B1A1A;color:#8B1A1A;}
+/* TEXTAREA */
+.q-area{
+  width:100%;background:rgba(255,255,255,0.45);
+  border:0.5px solid rgba(180,140,20,0.3);border-radius:8px;
+  padding:11px 14px;font-size:13px;font-family:'Noto Serif TC',serif;
+  color:#3A2010;resize:none;height:60px;outline:none;
+  letter-spacing:1px;margin-bottom:18px;
+}
+.q-area::placeholder{color:rgba(120,90,20,0.38);}
+.q-area:focus{border-color:rgba(139,26,26,0.45);}
+/* RITUAL */
+.ritual{text-align:center;margin:4px 0 18px;}
+.incense-row{display:flex;justify-content:center;align-items:flex-end;gap:5px;height:56px;margin-bottom:14px;}
+.stick{width:3px;border-radius:2px;position:relative;}
+.s1{height:50px;background:linear-gradient(to bottom,#7A1010,#C8500A,#E8C88A);}
+.s2{height:44px;background:linear-gradient(to bottom,#7A1010,#C8500A,#E8C88A);margin-top:6px;}
+.s3{height:48px;background:linear-gradient(to bottom,#7A1010,#C8500A,#E8C88A);margin-top:2px;}
+.ember{position:absolute;top:-4px;left:-1.5px;width:6px;height:6px;border-radius:50%;background:#FF7700;box-shadow:0 0 6px #FF7700;animation:flk 1.4s infinite alternate;}
+@keyframes flk{0%{opacity:1;transform:scale(1);}100%{opacity:.45;transform:scale(.65);}}
+.smoke{position:absolute;top:-13px;left:1px;width:1px;height:11px;background:linear-gradient(to top,rgba(200,151,26,.28),transparent);animation:rise 2.2s infinite;}
+@keyframes rise{0%{opacity:.6;transform:translateY(0);}100%{opacity:0;transform:translateY(-10px);}}
+.shake-wrap{position:relative;display:inline-flex;align-items:center;justify-content:center;}
+.shake-wrap::before{content:'';position:absolute;inset:-7px;border-radius:50%;border:0.5px solid rgba(180,140,20,.22);}
+.shake-wrap::after{content:'';position:absolute;inset:-14px;border-radius:50%;border:0.5px solid rgba(180,140,20,.1);}
+.shake-btn{
+  width:90px;height:90px;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%,#B52020,#8B1A1A);
+  border:1.5px solid #C8971A;color:#F5E0A0;
+  font-size:13px;font-family:'Noto Serif TC',serif;
+  cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:2px;letter-spacing:3px;
+  box-shadow:0 4px 18px rgba(139,26,26,.38),inset 0 1px 0 rgba(255,255,255,.1);
+  transition:all .2s;position:relative;z-index:1;
+}
+.shake-btn:hover{transform:scale(1.04);box-shadow:0 6px 24px rgba(139,26,26,.48);}
+.shake-btn:active{transform:scale(.97);}
+.shake-btn:disabled{opacity:.7;cursor:default;transform:none;}
+@keyframes shake{0%,100%{transform:rotate(0);}10%{transform:rotate(-10deg);}20%{transform:rotate(10deg);}30%{transform:rotate(-7deg);}40%{transform:rotate(7deg);}50%{transform:rotate(-4deg);}60%{transform:rotate(4deg);}}
+.shaking{animation:shake .65s ease-in-out;}
+.ritual-hint{font-size:10px;color:rgba(120,80,20,.45);letter-spacing:3px;margin-top:10px;}
+/* LOADING */
+.loading{text-align:center;padding:18px 0;font-size:12px;color:#A07820;letter-spacing:3px;display:none;}
+.loading.show{display:block;}
+@keyframes blink{0%,100%{opacity:.25;}50%{opacity:1;}}
+.loading span{animation:blink 1.5s infinite;}
+/* RESULT CARD */
+.rc{display:none;background:linear-gradient(155deg,rgba(255,255,255,.6),rgba(249,240,210,.82));border:1px solid rgba(180,140,20,.4);border-radius:12px;overflow:hidden;animation:revl .42s ease-out;}
+.rc.show{display:block;}
+@keyframes revl{from{opacity:0;transform:translateY(10px) scale(.98);}to{opacity:1;transform:translateY(0) scale(1);}}
+.rc-hdr{background:#8B1A1A;padding:13px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1.5px solid #C8971A;}
+.rc-num{font-size:10px;color:rgba(232,184,75,.55);letter-spacing:3px;margin-bottom:2px;}
+.rc-name{font-family:'Ma Shan Zheng',serif;font-size:20px;color:#E8B84B;letter-spacing:3px;}
+.rc-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px;}
+.grade-badge{font-size:11px;padding:3px 10px;border-radius:20px;letter-spacing:2px;font-weight:500;}
+.rc-cat-label{font-size:10px;color:rgba(232,184,75,.48);letter-spacing:2px;}
+.rc-body{padding:16px 18px 18px;}
+.poem-box{
+  background:rgba(139,26,26,.06);border-left:2.5px solid #B22222;
+  border-radius:0 7px 7px 0;padding:13px 15px;margin-bottom:14px;
+  font-size:14px;line-height:2.1;color:#8B1A1A;font-weight:500;
+  letter-spacing:2px;white-space:pre-line;
+}
+.interp{font-size:12.5px;line-height:2;color:#3A2010;margin-bottom:14px;letter-spacing:.5px;}
+.meta-strip{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding-top:12px;border-top:0.5px solid rgba(139,26,26,.16);margin-bottom:14px;}
+.meta-item{text-align:center;}
+.meta-lbl{font-size:9px;color:rgba(58,32,16,.42);letter-spacing:2px;margin-bottom:3px;}
+.meta-val{font-size:12px;color:#8B1A1A;font-weight:500;letter-spacing:1px;}
+.again-btn{
+  width:100%;background:transparent;
+  border:0.5px solid rgba(139,26,26,.32);border-radius:7px;
+  padding:10px;color:#A04040;font-size:11px;
+  font-family:'Noto Serif TC',serif;cursor:pointer;
+  letter-spacing:4px;transition:all .18s;
+}
+.again-btn:hover{background:rgba(139,26,26,.07);border-color:#8B1A1A;}
+/* FOOTER */
+.footer{text-align:center;padding:14px 20px;border-top:0.5px solid rgba(180,140,20,.18);}
+.footer-txt{font-size:9px;color:rgba(120,80,20,.32);letter-spacing:4px;}
+</style>
+</head>
+<body>
+<div class="page-frame">
+<div class="inner">
+
+  <div class="hdr">
+    <div class="corner c-tl"></div><div class="corner c-tr"></div>
+    <div class="corner c-bl"></div><div class="corner c-br"></div>
+    <div class="logo-title">通通靈</div>
+    <div class="logo-diamond"></div>
+    <div class="logo-sub">TONG TONG LING · 觀音百首靈籤</div>
+  </div>
+
+  <div class="date-bar">
+    <div class="date-pill" id="dateDisplay">讀取中...</div>
+    <div class="dot"></div>
+    <div class="date-pill" id="gzDisplay">—</div>
+  </div>
+
+  <div class="body">
+
+    <div class="sec-head"><div class="sec-line"></div><div class="sec-lbl">所問之事</div><div class="sec-line"></div></div>
+    <div class="i-grid">
+      <button class="i-btn" onclick="pickIntent(this,'運勢')">整體<br>運勢</button>
+      <button class="i-btn" onclick="pickIntent(this,'求財')">求財<br>事業</button>
+      <button class="i-btn" onclick="pickIntent(this,'感情')">感情<br>姻緣</button>
+      <button class="i-btn" onclick="pickIntent(this,'健康')">身心<br>健康</button>
+      <button class="i-btn" onclick="pickIntent(this,'考試')">考試<br>文書</button>
+      <button class="i-btn" onclick="pickIntent(this,'工作')">工作<br>職場</button>
+      <button class="i-btn" onclick="pickIntent(this,'創業')">創業<br>規劃</button>
+      <button class="i-btn" onclick="pickIntent(this,'出行')">出行<br>旅途</button>
+    </div>
+
+    <div class="sec-head"><div class="sec-line"></div><div class="sec-lbl">默想問題</div><div class="sec-line"></div></div>
+    <textarea class="q-area" id="qInput" placeholder="在心中默想你的問題，或寫下來…"></textarea>
+
+    <div class="sec-head"><div class="sec-line"></div><div class="sec-lbl">誠心求籤</div><div class="sec-line"></div></div>
+    <div class="ritual">
+      <div class="incense-row">
+        <div class="stick s1"><div class="ember"></div><div class="smoke"></div></div>
+        <div class="stick s2"><div class="ember" style="animation-delay:.5s"></div><div class="smoke" style="animation-delay:.4s"></div></div>
+        <div class="stick s3"><div class="ember" style="animation-delay:.9s"></div><div class="smoke" style="animation-delay:.8s"></div></div>
+      </div>
+      <div class="shake-wrap">
+        <button class="shake-btn" id="shakeBtn" onclick="draw()">
+          <span style="font-size:22px">🎋</span>
+          <span>求　籤</span>
+        </button>
+      </div>
+      <div class="ritual-hint">心誠則靈 · 一事一籤</div>
+    </div>
+
+    <div class="loading" id="loadingMsg"><span>觀音娘娘降旨中⋯</span></div>
+
+    <div class="rc" id="rc">
+      <div class="rc-hdr">
+        <div><div class="rc-num" id="rNum">第 X 籤</div><div class="rc-name" id="rName">卦名</div></div>
+        <div class="rc-right">
+          <div class="grade-badge" id="rGrade">上上籤</div>
+          <div class="rc-cat-label" id="rCat">【問事類別】</div>
+        </div>
+      </div>
+      <div class="rc-body">
+        <div class="poem-box" id="rPoem"></div>
+        <div class="interp" id="rInterp"></div>
+        <div class="meta-strip">
+          <div class="meta-item"><div class="meta-lbl">問事類別</div><div class="meta-val" id="mCat">—</div></div>
+          <div class="meta-item"><div class="meta-lbl">主要用神</div><div class="meta-val" id="mGod">—</div></div>
+          <div class="meta-item"><div class="meta-lbl">輔助參考</div><div class="meta-val" id="mAssist">—</div></div>
+        </div>
+        <button class="again-btn" onclick="reset()">再問一籤</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer"><div class="footer-txt">◈ 通通靈 · 道法自然 · 信者有福 ◈</div></div>
+
+</div>
+</div>
+
+<script>
+const ORACLES=[
+{n:1,name:"乾為天",cat:"運勢",god:"世爻",assist:"無",poem:"天行健，君子自強不息\n乾卦純陽，氣勢如虹\n此刻天時地利皆備\n當積極進取，必有所成",grade:"上上",interp:"乾為純陽之卦，象徵天道運行不息。此籤提示能量充沛，大環境對你有利。然「亢龍有悔」，積極行事但不可過度躁進。"},
+{n:2,name:"坤為地",cat:"求財",god:"妻財爻",assist:"子孫爻",poem:"地勢坤，君子以厚德載物\n財源廣進，厚積薄發\n靜待時機，不急不躁\n終見豐收，源遠流長",grade:"中上",interp:"坤為大地，承載萬物。財運宜穩紮穩打，厚積薄發。子孫爻旺則財源不斷，切勿貪功冒進，以柔克剛方為上策。"},
+{n:3,name:"水雷屯",cat:"健康",god:"官鬼爻",assist:"子孫爻",poem:"屯如初生，艱難中萌芽\n身體小恙，勿輕忽視\n子孫旺相，病魔可剋\n靜養調息，元氣漸復",grade:"中平",interp:"水雷屯象徵萬物初生時的艱難。健康宜多注意，及早調理。子孫爻象徵免疫與康復之力，保持良好作息，病症自然消退。"},
+{n:4,name:"山水蒙",cat:"考試",god:"父母爻",assist:"官鬼爻",poem:"蒙以養正，聖功也\n學問之道，勤能補拙\n父母爻旺，文章精進\n金榜可期，功名在望",grade:"中上",interp:"山水蒙提示如蒙昧初開，需虛心學習。父母爻象徵文書與成績，官鬼爻象徵名次，兩爻相生前途光明，踏實用功莫求捷徑。"},
+{n:5,name:"水天需",cat:"婚姻",god:"世爻",assist:"應爻",poem:"需者，待也，時機未熟\n姻緣天定，不必強求\n世應相合，情投意合\n靜待佳期，水到渠成",grade:"中平",interp:"水天需象徵等待與時機。婚姻感情還未到瓜熟蒂落的時候，需耐心等待。世應兩爻代表雙方關係，若相沖需多溝通磨合。"},
+{n:6,name:"天水訟",cat:"交友",god:"應爻",assist:"世爻",poem:"訟者，爭也，宜和不宜戰\n人際關係，以和為貴\n化干戈為玉帛\n廣結善緣，福自來",grade:"中平",interp:"天水訟提示人際間可能有摩擦。不宜與人爭鬥，以退為進，以誠待人，方能化解矛盾，廣結善緣。"},
+{n:7,name:"地水師",cat:"創業",god:"世爻",assist:"妻財爻",poem:"師者，眾也，整兵待發\n創業維艱，萬事起頭難\n財星入命，根基穩固\n運籌帷幄，決勝千里",grade:"中上",interp:"地水師象徵統帥與謀略。創業需周全規劃，整合資源後再出發。妻財爻代表盈利，父母爻代表場地合約，兩者兼備事業穩固。"},
+{n:8,name:"水地比",cat:"工作",god:"官鬼爻",assist:"父母爻",poem:"比者，親也，相輔相成\n職場之道，合作為先\n官鬼臨身，貴人相助\n父母護持，職位穩固",grade:"上中",interp:"水地比象徵親附與合作。官鬼爻代表職位與上司，父母爻代表公司與聘書。宜積極與上司同事配合，貴人運旺，有晉升機會。"},
+{n:9,name:"風天小畜",cat:"求子",god:"子孫爻",assist:"胎爻",poem:"小畜蓄力，時機漸熟\n子孫旺相，胎氣充盈\n調養身心，靜待天時\n瓜熟蒂落，喜得麟兒",grade:"中上",interp:"風天小畜提示蓄積能量，靜待時機。子孫爻旺相不受剋為吉兆，需調養身心配合天時地利，屆時自然瓜熟蒂落。"},
+{n:10,name:"天澤履",cat:"買屋",god:"父母爻",assist:"妻財爻",poem:"履者，行也，謹慎前行\n置產安居，根基重要\n父母爻動，產權在握\n資金充裕，安居樂業",grade:"中上",interp:"天澤履象徵謹慎前行。父母爻代表房屋產權，妻財爻代表資金，置產時機可行，但需謹慎審查產權與合約。"},
+{n:11,name:"地天泰",cat:"官司",god:"官鬼爻",assist:"世爻",poem:"泰者，通也，否極泰來\n官司之中，泰卦臨身\n正義在手，無懼風浪\n貴人相助，訴訟得勝",grade:"上上",interp:"地天泰是易經中最吉祥的卦象，象徵萬事亨通。官司方面大吉，正義在你這一方，訴訟可望勝訴。"},
+{n:12,name:"天地否",cat:"感情",god:"世爻",assist:"應爻",poem:"否者，閉也，陰陽不交\n感情受阻，暫時蟄伏\n莫強求緣，順其自然\n時來運轉，花開自有期",grade:"中下",interp:"天地否象徵天地不交。感情路上有些阻礙，建議暫時不要強求，調整心態給對方空間，靜待時機轉變。"},
+{n:13,name:"天火同人",cat:"出行",god:"世爻",assist:"父母爻",poem:"同人於野，亨，利涉大川\n出行大吉，四海皆兄弟\n父母護持，一路平安\n廣結善緣，旅途愉快",grade:"上上",interp:"天火同人象徵與人同行。出行方面大吉，旅途平安順利。出門在外廣結善緣，或有意外收穫。"},
+{n:14,name:"火天大有",cat:"合約",god:"父母爻",assist:"世爻",poem:"大有豐收，天道酬勤\n合約簽訂，大吉大利\n父母爻動，契約有力\n世應相合，互利共贏",grade:"上上",interp:"火天大有象徵豐收。父母爻代表契約文書，旺相則合約有效力，世應相合代表雙方誠意十足，此次簽約定能互利共贏。"},
+{n:15,name:"地山謙",cat:"長輩",god:"父母爻",assist:"世爻",poem:"謙謙君子，卑以自牧\n長輩貴人，溫厚相待\n父母爻動，慈愛護持\n謙遜處世，貴人相扶",grade:"上中",interp:"地山謙象徵謙遜之道。父母爻代表長輩與貴人，若生世爻則長輩對你慈愛相助。以謙遜誠敬態度對待長輩，必能得到扶持。"},
+{n:16,name:"雷地豫",cat:"運勢",god:"世爻",assist:"子孫爻",poem:"豫者，樂也，順勢而為\n天時人和，時機已到\n歡欣鼓舞，心想事成\n順水行舟，一帆風順",grade:"上中",interp:"雷地豫象徵喜悅與行動。現在是行動的好時機，天時人和俱備，保持積極樂觀的心態，好事自然接踵而來。"},
+{n:17,name:"澤雷隨",cat:"求財",god:"妻財爻",assist:"子孫爻",poem:"隨時而動，因勢利導\n財星隨動，機不可失\n把握時機，順勢斂財\n靈活應變，廣開財路",grade:"中上",interp:"澤雷隨象徵隨機應變。財運方面需要靈活應變，把握機遇。財爻旺動財源就在眼前，順勢而為的智慧。"},
+{n:18,name:"山風蠱",cat:"健康",god:"官鬼爻",assist:"子孫爻",poem:"蠱者，事也，積弊待清\n身體舊患，需積極調理\n子孫藥石，對症下藥\n撥亂反正，元氣自復",grade:"中下",interp:"山風蠱象徵積弊與整治。健康可能有積累已久的問題需要正視，積極尋求醫療調理，配合調養定能恢復健康。"},
+{n:19,name:"地澤臨",cat:"感情",god:"世爻",assist:"應爻",poem:"臨者，近也，佳期將至\n情緣漸熟，水到渠成\n世應相臨，心心相印\n把握時機，勇敢表白",grade:"上中",interp:"地澤臨象徵接近與來臨。感情方面是好兆頭，雙方距離漸近緣分漸熟，世應兩爻相臨感情進展順利，可以主動表達心意。"},
+{n:20,name:"風地觀",cat:"工作",god:"官鬼爻",assist:"父母爻",poem:"觀者，察也，洞悉先機\n職場如棋，運籌帷幄\n靜觀其變，審時度勢\n洞察機先，伺機而動",grade:"中平",interp:"風地觀象徵觀察與洞察力。工作宜靜觀其變，多觀察職場動態再行動。了解上司與同事的想法，洞察規律才能把握先機。"},
+{n:21,name:"火雷噬嗑",cat:"官司",god:"官鬼爻",assist:"世爻",poem:"噬嗑，咬合，突破阻礙\n官司難免，積極應戰\n正義在手，利劍出鞘\n咬定目標，突破重圍",grade:"中上",interp:"火雷噬嗑象徵咬合與突破阻礙。官司雖有阻礙，積極應對必能突破。此刻有法律支持，積極配合程序可期勝訴。"},
+{n:22,name:"山火賁",cat:"婚姻",god:"世爻",assist:"應爻",poem:"賁者，飾也，文質彬彬\n婚姻之道，內外兼修\n儀式隆重，心意真誠\n相敬如賓，百年好合",grade:"上中",interp:"山火賁象徵美麗與文飾。注重婚姻的儀式感與外在表現，同時充實內在，雙方用心必能百年好合。"},
+{n:23,name:"山地剝",cat:"求財",god:"妻財爻",assist:"子孫爻",poem:"剝者，落也，萬物凋零\n財運受阻，謹防損耗\n此時守成，勿輕冒進\n靜待時機，厚積薄發",grade:"中下",interp:"山地剝象徵剝落與耗損。現在不宜大動作投資，宜守成節省開支，靜待時機轉變。消極等待是蓄力待機的智慧。"},
+{n:24,name:"地雷復",cat:"運勢",god:"世爻",assist:"子孫爻",poem:"復者，返也，否極泰來\n一陽初動，生機萌現\n撥雲見日，曙光乍現\n積極進取，重新出發",grade:"上中",interp:"地雷復象徵回歸與復甦。你正處於低谷轉折點，否極泰來，一陽始生。積極行動，新的機遇正在到來。"},
+{n:25,name:"天雷無妄",cat:"創業",god:"世爻",assist:"妻財爻",poem:"無妄者，真也，天道誠信\n創業之道，誠信為本\n無妄而行，福自天降\n守正不偏，事業長久",grade:"上中",interp:"天雷無妄象徵純真與誠信。創業以誠信正道經營為要，不可走偏門取巧。誠信為本，事業必能長久穩固。"},
+{n:26,name:"山天大畜",cat:"考試",god:"父母爻",assist:"官鬼爻",poem:"大畜其德，積厚流光\n學海無涯，勤學苦讀\n厚積薄發，金榜題名\n蓄勢待發，一鳴驚人",grade:"上上",interp:"山天大畜象徵積累。考試方面極為吉利，代表平時積累足夠，此刻正是厚積薄發之時。金榜題名指日可待。"},
+{n:27,name:"山雷頤",cat:"健康",god:"官鬼爻",assist:"子孫爻",poem:"頤者，養也，頤養天年\n飲食調理，事半功倍\n子孫滋補，官鬼可剋\n養生有道，健康長壽",grade:"中上",interp:"山雷頤強調飲食調養的重要性。注意飲食均衡，避免暴飲暴食，頤養得當則病邪自退，身體自然康健。"},
+{n:28,name:"澤風大過",cat:"婚姻",god:"世爻",assist:"應爻",poem:"大過者，過猶不及也\n感情中勿太過強求\n世應相處，留有餘地\n以柔克剛，靜待花開",grade:"中平",interp:"澤風大過象徵過度與超載。感情中勿過於執著或施加壓力，給彼此留有空間，讓感情自然發展。"},
+{n:29,name:"坎為水",cat:"工作",god:"官鬼爻",assist:"父母爻",poem:"坎者，險也，重險在前\n職場艱辛，謹慎應對\n坎坷雖多，終能通過\n習險不失，智者無懼",grade:"中下",interp:"坎為水象徵重重險境。職場上可能面臨挑戰與風險，需保持冷靜謹慎應對。遵守規則靠著智慧定能度過難關。"},
+{n:30,name:"離為火",cat:"求財",god:"妻財爻",assist:"子孫爻",poem:"離者，明也，光明正大\n財運光明，依附而行\n附麗有德，財源廣進\n光明磊落，財祿自來",grade:"中上",interp:"離為火象徵光明。財運光明，需有所依附——或貴人相助，或借勢平台。兩爻相生則財運亨通，光明正大地進財。"},
+{n:31,name:"澤山咸",cat:"感情",god:"世爻",assist:"應爻",poem:"咸者，感也，心靈相通\n情投意合，感應天然\n世應相感，不謀而合\n愛意流動，緣分深厚",grade:"上上",interp:"澤山咸是最具浪漫氣息的卦象，象徵心靈感應。感情大吉，雙方心靈相通，情感自然流動，緣分極具發展潛力。"},
+{n:32,name:"雷風恆",cat:"婚姻",god:"世爻",assist:"應爻",poem:"恆者，久也，天長地久\n婚姻之道，恆久為貴\n世應相伴，攜手共老\n風雨同舟，情深義重",grade:"上上",interp:"雷風恆象徵持久與恆常。婚姻方面最吉之兆，感情基礎穩固，雙方共同維護必能攜手共老，百年好合。"},
+{n:33,name:"天山遯",cat:"官司",god:"世爻",assist:"應爻",poem:"遯者，退也，智慧退隱\n官司纏身，宜和為貴\n退一步海闊天空\n以退為進，轉危為安",grade:"中下",interp:"天山遯象徵退避。官司方面不宜硬碰硬，和解退讓反而是更明智的選擇，退一步海闊天空，能保全自身利益。"},
+{n:34,name:"雷天大壯",cat:"創業",god:"世爻",assist:"妻財爻",poem:"大壯者，壯也，雷霆萬鈞\n創業氣盛，銳不可當\n乘勝追擊，開疆拓土\n壯志凌雲，事業有成",grade:"上上",interp:"雷天大壯象徵壯盛與衝力。你正處於能量最旺的時刻，氣勢如虹。大膽出擊乘勝追擊，必能開創事業。"},
+{n:35,name:"火地晉",cat:"工作",god:"官鬼爻",assist:"父母爻",poem:"晉者，進也，日益精進\n職場晉升，機遇來臨\n官鬼護持，上司賞識\n積極進取，前途無量",grade:"上上",interp:"火地晉象徵晉升與進步。職場晉升機遇到來，上司賞識你，積極把握展現自我的機會，必能一鳴驚人。"},
+{n:36,name:"地火明夷",cat:"運勢",god:"世爻",assist:"子孫爻",poem:"明夷者，傷也，暫藏其明\n時運不濟，韜光養晦\n內心光明，外示柔順\n靜待時機，重放光芒",grade:"中下",interp:"地火明夷象徵光明暫時受到壓抑。當前環境不太有利，宜低調行事，韜光養晦。等待時機成熟再出手。"},
+{n:37,name:"風火家人",cat:"長輩",god:"父母爻",assist:"世爻",poem:"家人和睦，天倫之樂\n長輩慈愛，子女孝順\n父母護持，家和萬事興\n以孝感天，福祿自來",grade:"上上",interp:"風火家人象徵家庭和諧。長輩慈愛護持，父母爻生世爻，以孝順感恩之心回報，家和萬事興。"},
+{n:38,name:"火澤睽",cat:"交友",god:"應爻",assist:"世爻",poem:"睽者，異也，求同存異\n人際分歧，莫強求同\n求同存異，化解隔閡\n包容寬廣，友情長久",grade:"中平",interp:"火澤睽象徵對立與分歧。可能與友人有意見不合，不必強求相同，求同存異，以包容的心理解對方，友情更深厚。"},
+{n:39,name:"水山蹇",cat:"出行",god:"世爻",assist:"父母爻",poem:"蹇者，難也，步履維艱\n出行多阻，三思而後行\n等待時機，避開險途\n安全為要，謹慎出發",grade:"中下",interp:"水山蹇象徵艱難跋涉。出行可能遇到阻礙，宜謹慎評估是否必要。若必須出行，充分準備，安全第一。"},
+{n:40,name:"雷水解",cat:"官司",god:"官鬼爻",assist:"子孫爻",poem:"解者，緩也，化解困厄\n官司雖難，漸見曙光\n困境解除，雲開霧散\n子孫護持，終得平息",grade:"中上",interp:"雷水解象徵解除困難。官司困境漸漸舒解，情況往好的方向發展。子孫爻代表後援，官鬼爻壓力漸消，最終化解訴訟。"},
+{n:41,name:"山澤損",cat:"求財",god:"妻財爻",assist:"子孫爻",poem:"損者，減也，損之又損\n財運有損，謹慎守成\n損上益下，捐出獲福\n知足常樂，財運轉吉",grade:"中下",interp:"山澤損象徵減損。近期有財務損耗跡象，宜量入為出謹慎投資。適當施與布施，反而帶來財運轉機。"},
+{n:42,name:"風雷益",cat:"運勢",god:"世爻",assist:"子孫爻",poem:"益者，增也，日有所增\n運勢上升，諸事增益\n把握機遇，積極進取\n福上加福，錦上添花",grade:"上上",interp:"風雷益象徵增益。整體運勢極佳，各方面都在增長與進步，積極進取無論事業感情財運都有正向發展，福上加福。"},
+{n:43,name:"澤天夬",cat:"感情",god:"世爻",assist:"應爻",poem:"夬者，決也，當機立斷\n感情困局，需要勇氣\n決斷前行，突破障礙\n勇敢追愛，時不待人",grade:"中上",interp:"澤天夬象徵決斷與突破。感情面臨需要做出決定的時刻，猶豫不決只會錯失良機，鼓起勇氣當機立斷。"},
+{n:44,name:"天風姤",cat:"交友",god:"應爻",assist:"世爻",poem:"姤者，遇也，邂逅相逢\n人際緣分，不期而至\n貴人邂逅，把握機緣\n廣結善緣，處處逢源",grade:"中上",interp:"天風姤象徵邂逅與偶遇。近期可能邂逅重要的貴人或新朋友，保持開放的心態積極社交，把握每個偶然相遇的機緣。"},
+{n:45,name:"澤地萃",cat:"求財",god:"妻財爻",assist:"子孫爻",poem:"萃者，聚也，萬流歸海\n財源匯聚，聚財有道\n同氣相求，利益共享\n財星雲集，大有斬獲",grade:"上中",interp:"澤地萃象徵聚集。財運大吉，財源從各方匯聚而來。投資合作或集資事業皆吉，財星雲集必有豐收。"},
+{n:46,name:"地風升",cat:"工作",god:"官鬼爻",assist:"父母爻",poem:"升者，進也，步步高升\n職場如意，節節攀升\n官鬼護持，升職在望\n積功累德，前途無限",grade:"上上",interp:"地風升象徵上升與晉升。職場步步高升，官鬼爻代表職位名望，父母爻代表組織認可，積極表現晉升機會就在眼前。"},
+{n:47,name:"澤水困",cat:"運勢",god:"世爻",assist:"子孫爻",poem:"困者，窮也，困而不失\n困境之中，莫失志氣\n君子固窮，自強不息\n困極必通，柳暗花明",grade:"中下",interp:"澤水困象徵困境與磨難。現在處於相對困難的時期，但困境是暫時的。在困境中保持氣節不放棄，困極必通。"},
+{n:48,name:"水風井",cat:"求子",god:"子孫爻",assist:"胎爻",poem:"井者，汲也，取之不竭\n子嗣緣深，水清可汲\n子孫旺相，胎氣盈滿\n精心調養，喜得貴子",grade:"上中",interp:"水風井象徵生生不息。求子方面吉利，象徵生育能量充沛。子孫爻旺盛胎爻有力，配合適當身心調養，喜得貴子機率甚高。"},
+{n:49,name:"澤火革",cat:"創業",god:"世爻",assist:"妻財爻",poem:"革者，變也，革故鼎新\n創業創新，打破舊習\n革故鼎新，開創新局\n時代變革，乘勢而起",grade:"上中",interp:"澤火革象徵革命與改革。打破傳統革故鼎新才能成功，在現有市場找到創新突破點，抓住時代紅利，開創新局。"},
+{n:50,name:"火風鼎",cat:"合約",god:"父母爻",assist:"世爻",poem:"鼎者，器也，穩固鼎立\n合約簽訂，三方鼎立\n父母爻旺，契約有效\n穩固合作，長久之計",grade:"上上",interp:"火風鼎象徵穩固鼎立。合約方面極吉，合作關係穩固如鼎之三足，父母爻旺則合約具法律效力，定能長久穩固。"},
+{n:51,name:"震為雷",cat:"出行",god:"世爻",assist:"父母爻",poem:"震者，動也，雷霆震動\n出行在外，防突發事\n震而不懼，臨危不亂\n謹慎應對，化險為夷",grade:"中平",interp:"震為雷象徵震動與突發。出行中可能遇到突發狀況，需提高警覺。保持鎮定臨危不亂，即可化險為夷。"},
+{n:52,name:"艮為山",cat:"長輩",god:"父母爻",assist:"世爻",poem:"艮者，止也，穩如泰山\n長輩智慧，深厚如山\n靜心傾聽，受益良多\n安守本分，長輩器重",grade:"上中",interp:"艮為山象徵靜止與穩重。長輩如山嶽般穩重給你堅實依靠，靜心傾聽長輩的意見與建議，必能受益良多。"},
+{n:53,name:"風山漸",cat:"感情",god:"世爻",assist:"應爻",poem:"漸者，進也，循序漸進\n感情發展，急不來的\n一步一步，穩紮穩打\n水到渠成，情定終身",grade:"上中",interp:"風山漸象徵漸進。感情需要循序漸進急不來，每一步踏實穩固，在時間醞釀下自然深化，終能情定終身。"},
+{n:54,name:"雷澤歸妹",cat:"婚姻",god:"世爻",assist:"應爻",poem:"歸妹，嫁也，名正言順\n婚姻大事，名分為先\n正式求婚，光明磊落\n天作之合，佳偶天成",grade:"中上",interp:"雷澤歸妹象徵嫁娶與歸宿。強調名分與正式關係的重要性，感情穩定應考慮步入正式婚姻，光明磊落才是長久之計。"},
+{n:55,name:"雷火豐",cat:"求財",god:"妻財爻",assist:"子孫爻",poem:"豐者，大也，豐衣足食\n財運豐盈，大有斬獲\n妻財旺動，收入倍增\n豐收在望，財星高照",grade:"上上",interp:"雷火豐象徵豐盛與豐收。財運最佳卦之一，財源豐厚大有斬獲。此時是進財的黃金時期，積極把握財星高照豐收可期。"},
+{n:56,name:"火山旅",cat:"出行",god:"世爻",assist:"父母爻",poem:"旅者，客也，寄居異鄉\n出行在外，謹慎低調\n旅途平安，異鄉遇貴\n廣結善緣，旅有所成",grade:"中上",interp:"火山旅象徵旅行。出行吉利，但在外地需謹慎低調入鄉隨俗。異地他鄉廣結善緣，旅途中可能有意外收穫。"},
+{n:57,name:"巽為風",cat:"交友",god:"應爻",assist:"世爻",poem:"巽者，入也，謙遜和順\n以柔克剛，和氣致祥\n順風而動，廣結人緣\n謙遜待人，四海皆友",grade:"上中",interp:"巽為風象徵謙遜。以謙和柔順態度待人是最佳策略，謙遜的人能深入人心，廣結善緣四海皆兄弟。"},
+{n:58,name:"兌為澤",cat:"感情",god:"世爻",assist:"應爻",poem:"兌者，悅也，喜悅歡欣\n感情美滿，彼此喜悅\n甜言蜜語，傳情達意\n愛意融融，幸福常在",grade:"上上",interp:"兌為澤象徵喜悅與歡欣。感情最浪漫喜悅的卦象，雙方感情甜蜜互相喜悅，此時表達愛意對方必然歡喜回應。"},
+{n:59,name:"風水渙",cat:"官司",god:"官鬼爻",assist:"子孫爻",poem:"渙者，散也，渙然冰釋\n官司困局，漸漸渙散\n和解為上，冰釋前嫌\n化干戈為玉帛，皆大歡喜",grade:"中上",interp:"風水渙象徵渙散與化解。訴訟事宜有化解的可能，積極尋求調解，雙方冰釋前嫌反而是最好的結果。"},
+{n:60,name:"水澤節",cat:"運勢",god:"世爻",assist:"父母爻",poem:"節者，制也，節制有度\n凡事適可而止，過猶不及\n以節制守中道\n有節有度，福祿長久",grade:"中平",interp:"水澤節象徵節制與適度。凡事需有節制，守住中道才是長久之計。遵守自然節制的法則，不貪不躁，福祿自然長久。"},
+{n:61,name:"風澤中孚",cat:"婚姻",god:"世爻",assist:"應爻",poem:"中孚者，信也，真誠至上\n婚姻之道，以誠為本\n真心相待，坦誠相見\n信義之家，天作之合",grade:"上上",interp:"風澤中孚象徵內心真誠。婚姻方面上上大吉，雙方以真誠相待信義為本，以誠信經營的婚姻定能長久幸福。"},
+{n:62,name:"雷山小過",cat:"健康",god:"官鬼爻",assist:"子孫爻",poem:"小過者，微也，小事勿輕忽\n身體小恙，切莫輕視\n謹慎調理，防微杜漸\n從小處著手，防患未然",grade:"中平",interp:"雷山小過象徵謹慎。健康雖是小問題，但不可輕忽，防微杜漸為上策。及時調理不讓小問題積累成大患。"},
+{n:63,name:"水火既濟",cat:"運勢",god:"世爻",assist:"子孫爻",poem:"既濟者，成也，已臻圓滿\n諸事已成，慎防物極\n盈滿則溢，防守並重\n圓滿之後，守成為要",grade:"上中",interp:"水火既濟象徵圓滿完成。事情已達到圓滿境地，但「既濟」之後需防物極必反，以守成為主，鞏固現有成果。"},
+{n:64,name:"火水未濟",cat:"工作",god:"官鬼爻",assist:"父母爻",poem:"未濟者，未成也，大業將成\n工作尚在進行中\n繼續努力，不懈奮鬥\n終點在望，功成可期",grade:"中上",interp:"火水未濟象徵尚未完成但即將成功。工作目標尚未達成但已近在眼前，繼續保持現有努力，堅持到底功成可期。"},
+{n:65,name:"艮為山",cat:"創業",god:"世爻",assist:"妻財爻",poem:"艮者，止也，知止知進\n創業如築山，步步積累\n知止而後能定\n穩紮穩打，巨峰可成",grade:"中上",interp:"艮為山象徵穩重與積累。創業如同建山，需要一步一步積累不可求快。知道在哪裡停止哪裡繼續，穩紮穩打終能建成巨峰事業。"},
+{n:66,name:"風山漸",cat:"求財",god:"妻財爻",assist:"子孫爻",poem:"漸者，進也，循序積財\n財富增長，非一日之功\n循序漸進，細水長流\n耐心積累，富裕可期",grade:"中上",interp:"風山漸象徵漸進累積。財富的積累是漸進過程，急不得。細水長流持續耐心積累，終能達到財富豐盈的目標。"},
+{n:67,name:"雷澤歸妹",cat:"健康",god:"官鬼爻",assist:"子孫爻",poem:"歸妹征凶，健康警示\n身體問題，需正視面對\n莫拖延逃避，積極面對\n子孫護持，轉危為安",grade:"中下",interp:"雷澤歸妹在健康方面提示需要正視問題不可逃避。繼續忽視會越來越糟，積極就醫調理，正面應對才能轉危為安。"},
+{n:68,name:"雷火豐",cat:"感情",god:"世爻",assist:"應爻",poem:"豐者，盛也，感情豐盈\n戀愛高峰，熱情似火\n珍惜此刻，深情厚愛\n豐盛之愛，難能可貴",grade:"上上",interp:"雷火豐象徵豐盛。感情正處於最美好熾熱的高峰期，珍惜此刻，感情熱烈難能可貴，用心珍護方能長久。"},
+{n:69,name:"火山旅",cat:"工作",god:"官鬼爻",assist:"父母爻",poem:"旅者，客也，暫居他處\n職場轉換，或有異動\n隨遇而安，靈活應對\n異地求才，機遇在外",grade:"中平",interp:"火山旅象徵旅行與流動。職場可能有轉換或外派，隨遇而安把握每個環境的機遇，或許外地更有發展。"},
+{n:70,name:"巽為風",cat:"求財",god:"妻財爻",assist:"子孫爻",poem:"巽者，入也，無孔不入\n財路廣開，柔中帶剛\n謙和處事，財自隨來\n順風而動，財運亨通",grade:"中上",interp:"巽為風象徵入微與滲透。用謙和柔順方式經營財務最為有效，財路自然廣開。順勢而動財運亨通。"},
+{n:71,name:"兌為澤",cat:"考試",god:"父母爻",assist:"官鬼爻",poem:"兌者，悅也，言說動人\n考試發揮，表達流暢\n父母爻旺，文思泉湧\n口才一流，金榜可期",grade:"上上",interp:"兌為澤在考試方面大吉，代表表達能力特別出色，言說動人。父母爻旺則文思泉湧，無論書面還是口試都能讓考官印象深刻。"},
+{n:72,name:"風水渙",cat:"長輩",god:"父母爻",assist:"世爻",poem:"渙者，散也，情感漸疏\n與長輩關係，需加強聯繫\n渙而不流，用情用心\n主動探訪，情感長存",grade:"中平",interp:"風水渙象徵渙散。與長輩可能因各忙各的而漸漸疏遠，需要主動連繫增加互動，用誠意呼喚感情自然回歸。"},
+{n:73,name:"水澤節",cat:"考試",god:"父母爻",assist:"官鬼爻",poem:"節者，制也，節制備考\n學習有節，效率倍增\n不過度熬夜，不過度鬆散\n適中之道，考試佳績",grade:"中上",interp:"水澤節在考試方面提示備考需節制有度，既不過度透支也不過度鬆弛。按部就班適中而行，成績自然優秀。"},
+{n:74,name:"風澤中孚",cat:"交友",god:"應爻",assist:"世爻",poem:"中孚者，信也，以誠結友\n交友之道，誠信第一\n真心相待，肝膽相照\n知己難求，珍惜善緣",grade:"上上",interp:"風澤中孚在交友方面大吉，代表真誠的友誼。以誠信待人朋友也會以誠相報，知己難得，珍惜這份善緣。"},
+{n:75,name:"雷山小過",cat:"婚姻",god:"世爻",assist:"應爻",poem:"小過者，小事也，防微杜漸\n婚姻小摩擦，及時化解\n溝通是良方，諒解是關鍵\n小事化無，大愛長存",grade:"中平",interp:"雷山小過在婚姻方面提示雙方有一些小摩擦，需要及時溝通化解。不要讓小問題積累成大矛盾，從小處著手維護感情。"},
+{n:76,name:"水火既濟",cat:"合約",god:"父母爻",assist:"世爻",poem:"既濟者，成也，大功告成\n合約圓滿，彼此滿意\n父母爻定，契約有力\n功德圓滿，皆大歡喜",grade:"上上",interp:"水火既濟在合約方面極吉，代表合約能順利完成且雙方皆滿意。既濟之象代表萬事已備，此次合作定能圓滿完成。"},
+{n:77,name:"火水未濟",cat:"創業",god:"世爻",assist:"妻財爻",poem:"未濟者，進行中也，大業將成\n創業未竟，繼續前行\n光明就在前方\n堅持不懈，功成必在",grade:"中上",interp:"火水未濟在創業方面提示事業正在進行中，尚未到達終點但已見光明。繼續努力，不可在最後關頭放棄。"},
+{n:78,name:"乾為天",cat:"運勢",god:"世爻",assist:"父母爻",poem:"天行健，九五飛龍在天\n龍德正中，光明磊落\n把握良機，大展鴻圖\n一鳴驚人，翱翔九天",grade:"上上",interp:"再得乾卦，天道酬勤，此乃天降吉兆。能量場強大大環境極為有利，是大展身手的最佳時機。積極展現自我，必能得到賞識。"},
+{n:79,name:"坤為地",cat:"求財",god:"妻財爻",assist:"子孫爻",poem:"地德厚兮，坤為大地\n厚積薄發，財富可期\n以柔為用，包容一切\n天時已到，收穫豐滿",grade:"上中",interp:"再遇坤卦，大地之德包容萬物。財運深厚持久，所有過去的努力即將結出果實，以柔克剛順勢而為，財運水到渠成。"},
+{n:80,name:"水雷屯",cat:"健康",god:"官鬼爻",assist:"子孫爻",poem:"屯難之中，生機萌動\n身體告警，積極應對\n子孫之力，抵禦病邪\n破土而出，健康重生",grade:"中平",interp:"再遇屯卦，身體正在經歷調整期，如種子破土之難。積極配合調理，如種子終能破土而出，健康重新萌發。"},
+{n:81,name:"山水蒙",cat:"考試",god:"父母爻",assist:"官鬼爻",poem:"蒙以養正，再度求問\n學問之道，百折不撓\n父母文星，再加護持\n孜孜不倦，功名可期",grade:"中上",interp:"再遇蒙卦，每一次重複都是加深印象的機會。父母爻代表文書成就，官鬼爻代表名次認可，堅持不懈功名就在不遠處。"},
+{n:82,name:"水天需",cat:"婚姻",god:"世爻",assist:"應爻",poem:"再問婚姻，天意仍待\n緣分未熟，勿強求急\n靜心等待，如水就下\n天作之合，水到渠成",grade:"中平",interp:"再遇需卦，姻緣天定時機尚未成熟。保持耐心不要因焦慮做出衝動選擇，靜下心來讓感情自然流動，水到渠成之時真愛到來。"},
+{n:83,name:"天水訟",cat:"交友",god:"應爻",assist:"世爻",poem:"訟爭再現，息訟和為貴\n人際摩擦，需更多包容\n以德服人，化解怨恨\n廣結善緣，自得其樂",grade:"中下",interp:"再遇訟卦，人際摩擦可能較為明顯，切記和氣生財。理解對方的立場，以德服人化解紛爭，才能重建良好的人際關係。"},
+{n:84,name:"地水師",cat:"創業",god:"世爻",assist:"妻財爻",poem:"師者，眾也，再整旗鼓\n創業再問，重新部署\n整合資源，集結人才\n決戰在即，必勝有望",grade:"中上",interp:"再遇師卦，需重新審視資源配置，人才俱備策略清晰。重新部署後出擊，勝算更高。"},
+{n:85,name:"水地比",cat:"工作",god:"官鬼爻",assist:"父母爻",poem:"比者，近也，再度親比\n職場夥伴，相輔相成\n官鬼護持，職位穩固\n合作共贏，事業更旺",grade:"上中",interp:"再遇比卦，職場合作能量再度加強。積極融入團隊合作共贏，官鬼爻代表職位穩固，事業更上一層樓。"},
+{n:86,name:"風天小畜",cat:"求子",god:"子孫爻",assist:"胎爻",poem:"小畜蓄力，再度問子\n緣分天定，靜心調養\n子孫爻動，胎氣漸盈\n精心等待，喜訊將至",grade:"中上",interp:"再遇小畜卦，繼續積蓄能量耐心調養。子孫爻代表子嗣緣分，保持平和心態不過度焦慮，喜訊終將到來。"},
+{n:87,name:"天澤履",cat:"買屋",god:"父母爻",assist:"妻財爻",poem:"履卦再問，謹步前行\n置產大事，再三確認\n父母爻定，產權清晰\n穩健置產，安居有望",grade:"中上",interp:"再遇履卦，置產之事繼續謹慎前行。仔細審查房屋產權與合約細節，謹慎評估後安心置產，終能安居樂業。"},
+{n:88,name:"地天泰",cat:"官司",god:"官鬼爻",assist:"世爻",poem:"泰卦再臨，天地交泰\n官司形勢，更加有利\n正義天道，終究明朗\n勝訴有望，大吉大利",grade:"上上",interp:"再遇泰卦，官司形勢更加有利，是雙重吉兆。天地交泰代表正義必然戰勝，積極配合法律程序，勝訴的把握更大。"},
+{n:89,name:"天地否",cat:"感情",god:"世爻",assist:"應爻",poem:"否極必泰，再度沉澱\n感情受阻，仍需耐心\n天地終將交泰\n靜心等待，轉機將至",grade:"中下",interp:"再遇否卦，感情的阻礙仍在，需要更多耐心。否極必泰，寒冬之後必有春暖，這段等待讓感情更加成熟，轉機即將到來。"},
+{n:90,name:"天火同人",cat:"出行",god:"世爻",assist:"父母爻",poem:"同人于野，四海一家\n再度出行，大吉更吉\n志同道合，旅伴相隨\n異地相逢，皆為知己",grade:"上上",interp:"再遇同人卦，出行運勢更加旺盛，是雙重吉兆。此次出行不僅平安順利，更可能遇到志同道合的貴人或夥伴。"},
+{n:91,name:"火天大有",cat:"合約",god:"父母爻",assist:"世爻",poem:"大有再臨，豐收加倍\n合約更加豐厚有利\n父母爻動，契約生威\n大有作為，雙贏局面",grade:"上上",interp:"再遇大有卦，合約吉利程度更上一層。父母爻代表合約文書威力強大，此次合約定能帶來豐厚利益，大有作為。"},
+{n:92,name:"地山謙",cat:"長輩",god:"父母爻",assist:"世爻",poem:"謙謙再現，謙光愈明\n對待長輩，謙遜益加\n父母慈愛，子女恭順\n謙讓有德，長輩敬重",grade:"上中",interp:"再遇謙卦，謙遜之德發揮加倍效果。以謙遜誠敬態度相待，謙遜者必受長輩器重與扶持。"},
+{n:93,name:"雷地豫",cat:"運勢",god:"世爻",assist:"子孫爻",poem:"豫卦再動，雷聲大震\n行動時機，千載難逢\n把握當下，奮發圖強\n歡欣鼓舞，好運連連",grade:"上上",interp:"再遇豫卦，行動黃金時機更加成熟，是罕見的大好機遇。此時出手必定事半功倍，不要再猶豫，雷霆出擊好運連連。"},
+{n:94,name:"澤雷隨",cat:"求財",god:"妻財爻",assist:"子孫爻",poem:"隨時再現，順勢更強\n財運隨機，靈活把握\n隨波逐流非消極\n順勢斂財，智慧之舉",grade:"上中",interp:"再遇隨卦，順勢而為的財運智慧更加凸顯。需要比以往更靈活地應對市場變化，隨機應變把握每一個財務機遇。"},
+{n:95,name:"山風蠱",cat:"健康",god:"官鬼爻",assist:"子孫爻",poem:"蠱卦再問，積弊待清\n身體健康，需積極面對\n不可再拖，立即調理\n子孫藥力，撥亂反正",grade:"中下",interp:"再遇蠱卦，健康問題更需正視，積累的問題已到了必須整治的時刻，立即積極尋求醫療調理，積極配合則必能痊癒。"},
+{n:96,name:"地澤臨",cat:"感情",god:"世爻",assist:"應爻",poem:"臨卦再現，佳期更近\n感情即將水到渠成\n把握良機，勇敢前行\n天作之合，即將成真",grade:"上上",interp:"再遇臨卦，感情成熟時機更加迫近，是雙重吉兆。感情已到了瓜熟蒂落的時刻，勇敢把握這個最成熟的時機。"},
+{n:97,name:"風地觀",cat:"工作",god:"官鬼爻",assist:"父母爻",poem:"再度觀望，洞察更深\n職場動態，盡在掌握\n運籌帷幄，伺機而動\n洞察先機，必有斬獲",grade:"中上",interp:"再遇觀卦，洞察職場的能力更加深入。需要更深入地觀察和理解職場生態，知己知彼百戰不殆，洞察先機後出手必有斬獲。"},
+{n:98,name:"火雷噬嗑",cat:"官司",god:"官鬼爻",assist:"世爻",poem:"噬嗑再現，咬合更力\n官司阻礙，再度突破\n法律之劍，正義所向\n二度出擊，勝訴必然",grade:"上上",interp:"再遇噬嗑卦，突破阻礙力量大幅增強，是官司勝訴的強力信號。積極配合法律程序，二度出擊，正義必然得到伸張。"},
+{n:99,name:"山火賁",cat:"婚姻",god:"世爻",assist:"應爻",poem:"賁卦再現，文質彬彬\n婚姻內外，兼修並進\n儀式與真情，缺一不可\n美麗婚姻，由此而生",grade:"上上",interp:"再遇賁卦，外在儀式感固然重要，但內在的真情實意更是基礎，兩者相輔相成，才能成就真正美麗而長久的婚姻。"},
+{n:100,name:"山地剝",cat:"求財",god:"妻財爻",assist:"子孫爻",poem:"百籤終末，剝極而復\n萬物剝落，正孕育重生\n否極泰來，財運將轉\n守候時機，厚積待發",grade:"中下",interp:"百籤終末遇剝卦，象徵舊事物剝落為新生命讓路。財運雖有損耗，但「剝極而復」，消退到極點必然重新生長，等待時機迎來全新財運循環。"},
+];
+
+const GC={"上上":{bg:"#C8971A",c:"#FFF8E0"},"上中":{bg:"#A07820",c:"#FFF8E0"},"中上":{bg:"#7A5C1A",c:"#FFF8E0"},"中平":{bg:"#8B6914",c:"#FFF8E0"},"中下":{bg:"#6B3A1F",c:"#FFE8D0"},"下下":{bg:"#8B1A1A",c:"#FFE8D0"}};
+const STEMS=["甲","乙","丙","丁","戊","己","庚","辛","壬","癸"];
+const BRANCHES=["子","丑","寅","卯","辰","巳","午","未","申","酉","戌","亥"];
+const MONTHS=["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"];
+
+function initDate(){
+  const d=new Date();
+  const base=new Date(2024,0,1);
+  const diff=Math.floor((d-base)/86400000);
+  const si=(diff+40)%10,bi=(diff+12)%12;
+  const mi=d.getMonth()%10,mbi=d.getMonth()%12;
+  document.getElementById('dateDisplay').textContent=d.getFullYear()+"年 "+MONTHS[d.getMonth()]+" "+d.getDate()+"日";
+  document.getElementById('gzDisplay').textContent=STEMS[mi]+BRANCHES[mbi]+"月 "+STEMS[si]+BRANCHES[bi]+"日";
+}
+initDate();
+
+let selIntent="";
+function pickIntent(el,v){
+  selIntent=v;
+  document.querySelectorAll('.i-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function draw(){
+  const btn=document.getElementById('shakeBtn');
+  btn.classList.add('shaking');btn.disabled=true;
+  document.getElementById('rc').classList.remove('show');
+  const ld=document.getElementById('loadingMsg');ld.classList.add('show');
+  setTimeout(()=>{
+    btn.classList.remove('shaking');ld.classList.remove('show');
+    const o=ORACLES[Math.floor(Math.random()*ORACLES.length)];
+    document.getElementById('rNum').textContent="第 "+o.n+" 籤";
+    document.getElementById('rName').textContent=o.name;
+    document.getElementById('rPoem').textContent=o.poem;
+    document.getElementById('rInterp').textContent=o.interp;
+    const g=GC[o.grade]||GC["中平"];
+    const gb=document.getElementById('rGrade');
+    gb.textContent=o.grade+"籤";gb.style.background=g.bg;gb.style.color=g.c;
+    document.getElementById('rCat').textContent="【"+o.cat+"】";
+    document.getElementById('mCat').textContent=o.cat||"綜合";
+    document.getElementById('mGod').textContent=o.god||"—";
+    document.getElementById('mAssist').textContent=o.assist||"—";
+    document.getElementById('rc').classList.add('show');
+    btn.disabled=false;
+  },1800);
+}
+
+function reset(){
+  document.getElementById('rc').classList.remove('show');
+  document.getElementById('qInput').value='';
+  selIntent="";
+  document.querySelectorAll('.i-btn').forEach(b=>b.classList.remove('active'));
+}
+</script>
+</body>
+</html>
