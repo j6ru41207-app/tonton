@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>通通靈 · 觀音百首靈籤</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+TC:wght@400;500;700;900&display=swap');
+
+:root {
+  --gold: #C8921A;
+  --gold-light: #E8B84B;
+  --gold-pale: #F5DFA0;
+  --red: #8B1A1A;
+  --red-bright: #C02020;
+  --paper: #F0E2B0;
+  --paper-dark: #D4C070;
+  --ink: #1A0A00;
+  --smoke: rgba(200,146,26,0.18);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Noto Serif TC', serif;
+  background-color: #0D0400;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="4" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feBlend in="SourceGraphic" mode="overlay"/></filter><rect width="256" height="256" filter="url(%23n)" opacity="0.12"/></svg>');
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ── 背景：金紙紋理 ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(200,146,26,0.25) 0%, transparent 60%),
+    radial-gradient(ellipse at 20% 100%, rgba(139,26,26,0.3) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 60%, rgba(200,146,26,0.12) 0%, transparent 40%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* SVG 噪點紋理 overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: 0.6;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 0 0 60px;
+}
+
+/* ── 頂部：焰光裝飾 ── */
+.flame-bar {
+  height: 6px;
+  background: linear-gradient(90deg, transparent, #C8921A, #E8B84B, #FF6020, #E8B84B, #C8921A, transparent);
+  animation: flameBar 3s ease-in-out infinite alternate;
+}
+@keyframes flameBar {
+  0% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+/* ── Header ── */
+.hdr {
+  text-align: center;
+  padding: 28px 20px 20px;
+  position: relative;
+}
+
+.hdr-corner {
+  position: absolute;
+  width: 28px; height: 28px;
+  border-color: var(--gold);
+  border-style: solid;
+  opacity: 0.5;
+}
+.hdr-corner.tl { top: 20px; left: 16px; border-width: 1.5px 0 0 1.5px; }
+.hdr-corner.tr { top: 20px; right: 16px; border-width: 1.5px 1.5px 0 0; }
+
+/* 八卦圓形裝飾 */
+.bagua-ring {
+  width: 60px; height: 60px;
+  margin: 0 auto 10px;
+  position: relative;
+}
+.bagua-ring svg { width: 100%; height: 100%; animation: spinSlow 20s linear infinite; }
+
+.brand-name {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 52px;
+  color: var(--gold-light);
+  letter-spacing: 12px;
+  line-height: 1;
+  text-align: center;
+  width: 100%;
+  display: block;
+  text-shadow:
+    0 0 30px rgba(232,184,75,0.5),
+    0 0 60px rgba(200,146,26,0.3),
+    2px 2px 0 rgba(139,26,26,0.4);
+}
+
+.brand-sub {
+  font-size: 9px;
+  color: rgba(232,184,75,0.4);
+  letter-spacing: 6px;
+  margin-top: 6px;
+  text-align: center;
+  width: 100%;
+  display: block;
+}
+
+/* 朱砂分隔線 */
+.zhusha-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 20px;
+  margin: 4px 0 16px;
+}
+.zhusha-line::before,
+.zhusha-line::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0.4;
+}
+.zhusha-diamond {
+  width: 6px; height: 6px;
+  background: var(--red-bright);
+  transform: rotate(45deg);
+  box-shadow: 0 0 8px rgba(192,32,32,0.6);
+}
+
+/* ── 日期帶 ── */
+.date-band {
+  background: rgba(200,146,26,0.08);
+  border-top: 0.5px solid rgba(200,146,26,0.2);
+  border-bottom: 0.5px solid rgba(200,146,26,0.2);
+  padding: 7px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+.date-txt {
+  font-size: 10px;
+  color: rgba(232,184,75,0.55);
+  letter-spacing: 2px;
+}
+.date-dot {
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: rgba(200,146,26,0.35);
+}
+
+/* ── 主體 ── */
+.body { padding: 22px 18px; }
+
+/* 區塊標題 */
+.sec-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.sec-title-line {
+  flex: 1;
+  height: 0.5px;
+  background: linear-gradient(90deg, transparent, rgba(200,146,26,0.35), transparent);
+}
+.sec-title-txt {
+  font-size: 9px;
+  color: rgba(200,146,26,0.6);
+  letter-spacing: 5px;
+  white-space: nowrap;
+}
+.sec-title-mark {
+  width: 4px; height: 4px;
+  background: var(--red-bright);
+  transform: rotate(45deg);
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+
+/* ── 問事類別按鈕 ── */
+.intent-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 18px;
+}
+.intent-btn {
+  background: rgba(200,146,26,0.06);
+  border: 0.5px solid rgba(200,146,26,0.22);
+  border-radius: 6px;
+  padding: 10px 4px 8px;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 11px;
+  color: rgba(200,146,26,0.65);
+  cursor: pointer;
+  text-align: center;
+  line-height: 1.6;
+  letter-spacing: 0.5px;
+  transition: all .2s;
+  position: relative;
+  overflow: hidden;
+}
+.intent-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(139,26,26,0);
+  transition: background .2s;
+}
+.intent-btn:hover, .intent-btn.active {
+  border-color: var(--red-bright);
+  color: var(--gold-light);
+  background: rgba(139,26,26,0.15);
+}
+.intent-btn.active::after {
+  content: '';
+  position: absolute;
+  top: 3px; right: 3px;
+  width: 4px; height: 4px;
+  background: var(--red-bright);
+  border-radius: 50%;
+  box-shadow: 0 0 4px var(--red-bright);
+}
+
+/* ── 問事輸入 ── */
+.q-wrap {
+  position: relative;
+  margin-bottom: 22px;
+}
+.q-area {
+  width: 100%;
+  background: rgba(200,146,26,0.04);
+  border: 0.5px solid rgba(200,146,26,0.22);
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 12px;
+  font-family: 'Noto Serif TC', serif;
+  color: var(--gold-pale);
+  resize: none;
+  height: 56px;
+  outline: none;
+  letter-spacing: 1.5px;
+  transition: border-color .2s;
+}
+.q-area::placeholder { color: rgba(200,146,26,0.25); }
+.q-area:focus { border-color: rgba(139,26,26,0.5); }
+
+/* ── 儀式區 ── */
+.ritual {
+  text-align: center;
+  padding: 10px 0 6px;
+}
+
+/* 籤筒按鈕 */
+.shake-outer {/* 籤筒按鈕 */
+.shake-outer {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.shake-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 0;
+  transition: all .22s;
+  position: relative;
+  z-index: 1;
+}
+.shake-btn:hover { transform: scale(1.05) translateY(-3px); filter: brightness(1.1); }
+.shake-btn:active { transform: scale(0.97); }
+.shake-btn:disabled { opacity: 0.6; cursor: default; transform: none; }
+.shake-btn .btn-txt {
+  font-size: 12px;
+  letter-spacing: 5px;
+  color: rgba(200,146,26,0.6);
+  font-family: 'Noto Serif TC', serif;
+  margin-top: 4px;
+}
+
+@keyframes shakeAnim {
+  0%,100% { transform: rotate(0) translateY(0); }
+  10% { transform: rotate(-12deg) translateY(-2px); }
+  20% { transform: rotate(12deg) translateY(-3px); }
+  30% { transform: rotate(-8deg) translateY(-1px); }
+  40% { transform: rotate(8deg) translateY(-2px); }
+  50% { transform: rotate(-5deg) translateY(-1px); }
+  60% { transform: rotate(5deg) translateY(-2px); }
+  70% { transform: rotate(-3deg) translateY(0); }
+  80% { transform: rotate(3deg) translateY(-1px); }
+}
+.shaking { animation: shakeAnim 0.7s ease-in-out; }
+
+.ritual-hint {
+  font-size: 9px;
+  color: rgba(200,146,26,0.3);
+  letter-spacing: 4px;
+  margin-top: 4px;
+}
+
+/* ── Loading ── */
+.loading {
+  display: none;
+  text-align: center;
+  padding: 60px 0 40px;
+}
+.loading.show { display: flex; justify-content:center; align-items:center; }
+.loading-txt {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14px;
+  color: rgba(240,220,180,0.95);
+  letter-spacing: 8px;
+  animation: loadBlink 1.8s ease-in-out infinite;
+}
+@keyframes loadBlink {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.9; }
+}
+
+/* ── 結果卡：捲軸展開 ── */
+.result-scroll {
+  display: none;
+  position: relative;
+  margin-top: 4px;
+  overflow: visible;
+  padding: 0 8px;
+}
+.result-scroll.show {
+  display: block;
+  animation: scrollUnroll .55s cubic-bezier(.16,1,.3,1) forwards;
+}
+
+@keyframes scrollUnroll {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 捲軸頂部捲桿 */
+.scroll-rod {
+  height: 20px;
+  background: linear-gradient(to bottom, #5A3800, #A06010 30%, #C8921A 50%, #A06010 70%, #5A3800);
+  border-radius: 10px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.7), inset 0 2px 0 rgba(255,220,100,0.3);
+  margin-bottom: 0px;
+  position: relative;
+  z-index: 2;
+}
+.scroll-rod::before,
+.scroll-rod::after {
+  content: '';
+  position: absolute;
+  top: 50%; transform: translateY(-50%);
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #F0D060, #7A5000);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,220,80,0.4);
+}
+.scroll-rod::before { left: -8px; }
+.scroll-rod::after { right: -8px; }
+
+/* ── 籤紙主體：仿真實籤紙 ── */
+.scroll-body {
+  background:
+    repeating-linear-gradient(
+      180deg,
+      transparent,
+      transparent 31px,
+      rgba(160,100,20,0.08) 31px,
+      rgba(160,100,20,0.08) 32px
+    ),
+    linear-gradient(180deg, #F2E0A0 0%, #EDD47A 50%, #E8CD6A 100%) !important;
+  border-left: 3px solid #A06010;
+  border-right: 3px solid #A06010;
+  padding: 0 0 0 0;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    inset 2px 0 6px rgba(0,0,0,0.08),
+    inset -2px 0 6px rgba(0,0,0,0.08),
+    0 6px 30px rgba(0,0,0,0.5);
+}
+
+/* 紙張老化斑點紋理 */
+.scroll-body::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(ellipse at 15% 20%, rgba(139,80,0,0.06) 0%, transparent 40%),
+    radial-gradient(ellipse at 85% 70%, rgba(139,80,0,0.05) 0%, transparent 35%),
+    radial-gradient(ellipse at 50% 50%, rgba(255,255,255,0.12) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.scroll-body::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── 頂部標題橫幅（仿龍山寺籤頂） ── */
+.slip-header {
+  background: #8B1A1A;
+  padding: 10px 16px 8px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  border-bottom: 2px solid #C8921A;
+}
+.slip-header-top {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 11px;
+  color: rgba(255,220,150,0.7);
+  letter-spacing: 5px;
+  margin-bottom: 3px;
+}
+.slip-header-num {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 22px;
+  color: #F5D080;
+  letter-spacing: 8px;
+  font-weight: 700;
+  line-height: 1;
+}
+.slip-header-grade {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 12px;
+  color: rgba(255,220,150,0.85);
+  letter-spacing: 4px;
+  margin-top: 3px;
+}
+
+/* ── 籤紙內容區 ── */
+.slip-content {
+  padding: 16px 20px 14px;
+  position: relative;
+  z-index: 1;
+}
+
+/* 典故名 */
+.slip-story {
+  text-align: center;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 10px;
+  color: rgba(100,50,0,0.5);
+  letter-spacing: 3px;
+  margin-bottom: 12px;
+}
+
+/* 分隔線 */
+.slip-divider {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0;
+}
+.slip-divider-line {
+  flex: 1;
+  height: 1px;
+  background: rgba(139,80,0,0.2);
+}
+.slip-divider-sym {
+  font-size: 10px;
+  color: rgba(139,26,26,0.4);
+}
+
+/* 籤詩 — 仿毛筆字直排感 */
+.poem-box {
+  font-family: 'Ma Shan Zheng', 'Noto Serif TC', serif;
+  font-size: 20px;
+  line-height: 2.0;
+  color: #3A0A00;
+  letter-spacing: 6px;
+  text-align: center;
+  padding: 12px 8px;
+  white-space: pre-line;
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.interp-section-label {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 10px;
+  color: rgba(139,26,26,0.6);
+  letter-spacing: 4px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+}
+.interp-section-label::before {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(139,80,0,0.2);
+}
+.interp-section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(139,80,0,0.2);
+}
+
+.interp-txt {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 12px;
+  line-height: 2.2;
+  color: rgba(40,15,0,0.8);
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+  padding: 0;
+  text-align: justify;
+}
+
+/* 底部問事類別 */
+.slip-cat {
+  text-align: center;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 10px;
+  color: rgba(139,26,26,0.45);
+  letter-spacing: 4px;
+  margin-bottom: 14px;
+}
+
+/* 再問按鈕 */
+.again-btn {
+  width: 100%;
+  background: transparent;
+  border: 1px solid rgba(139,26,26,0.25);
+  border-radius: 0;
+  padding: 11px;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 13px;
+  color: rgba(139,26,26,0.5);
+  letter-spacing: 5px;
+  cursor: pointer;
+  transition: all .2s;
+  margin-top: 14px;
+}
+.again-btn:hover {
+  background: rgba(200,146,26,0.08);
+  color: var(--gold-light);
+  border-color: rgba(200,146,26,0.5);
+}
+
+/* ── Footer ── */
+.footer {
+  text-align: center;
+  padding: 24px 20px 20px;
+  border-top: 1px solid rgba(200,146,26,0.25);
+}
+.footer-txt {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 12px;
+  color: rgba(200,146,26,0.65);
+  letter-spacing: 5px;
+}
+
+/* ── 旋轉八卦 ── */
+@keyframes spinSlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ── 飄落符咒粒子 ── */
+.particle {
+  position: fixed;
+  pointer-events: none;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 10px;
+  color: rgba(200,146,26,0.4);
+  animation: particleFall linear forwards;
+  z-index: 999;
+}
+@keyframes particleFall {
+  0% { opacity: 0.8; transform: translateY(0) rotate(0deg); }
+  100% { opacity: 0; transform: translateY(80px) rotate(360deg); }
+}
+
+@keyframes rodTop {
+  from { transform: translateY(50vh); }
+  to   { transform: translateY(0); }
+}
+@keyframes rodBottom {
+  from { transform: translateY(-50vh); }
+  to   { transform: translateY(0); }
+}
+@keyframes paperUnroll {
+  from { transform: scaleY(0); opacity:0; }
+  to   { transform: scaleY(1); opacity:1; }
+}
+@keyframes overlayFadeIn {
+  from { opacity:0; }
+  to   { opacity:1; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="flame-bar"></div>
+
+  <!-- HEADER -->
+  <div class="hdr">
+    <div class="hdr-corner tl"></div>
+    <div class="hdr-corner tr"></div>
+
+    <!-- 八卦旋轉裝飾 -->
+    <div class="bagua-ring">
+      <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="30" cy="30" r="28" stroke="rgba(200,146,26,0.3)" stroke-width="0.5"/>
+        <circle cx="30" cy="30" r="22" stroke="rgba(200,146,26,0.15)" stroke-width="0.5"/>
+        <!-- 八卦線條 -->
+        <g stroke="rgba(200,146,26,0.45)" stroke-width="1.5" stroke-linecap="round">
+          <!-- 乾 ☰ -->
+          <line x1="26" y1="4" x2="34" y2="4"/>
+          <line x1="26" y1="6.5" x2="34" y2="6.5"/>
+          <line x1="26" y1="9" x2="34" y2="9"/>
+          <!-- 坤 ☷ -->
+          <line x1="26" y1="51" x2="29" y2="51"/> <line x1="31" y1="51" x2="34" y2="51"/>
+          <line x1="26" y1="53.5" x2="29" y2="53.5"/> <line x1="31" y1="53.5" x2="34" y2="53.5"/>
+          <line x1="26" y1="56" x2="29" y2="56"/> <line x1="31" y1="56" x2="34" y2="56"/>
+          <!-- 離 ☲ -->
+          <line x1="51" y1="26" x2="56" y2="26"/>
+          <line x1="51" y1="28.5" x2="53" y2="28.5"/> <line x1="54" y1="28.5" x2="56" y2="28.5"/>
+          <line x1="51" y1="31" x2="56" y2="31"/>
+          <!-- 坎 ☵ -->
+          <line x1="4" y1="26" x2="9" y2="26"/>
+          <line x1="4" y1="28.5" x2="9" y2="28.5"/>
+          <line x1="4" y1="31" x2="6" y2="31"/> <line x1="7" y1="31" x2="9" y2="31"/>
+        </g>
+        <!-- 太極圓點 -->
+        <circle cx="30" cy="30" r="3" fill="rgba(200,146,26,0.4)"/>
+        <circle cx="30" cy="30" r="1.2" fill="rgba(200,146,26,0.8)"/>
+      </svg>
+    </div>
+
+    <div class="brand-name">通通靈</div>
+    <div class="brand-sub">TONG TONG LING · 觀音百首靈籤</div>
+  </div>
+
+  <div class="zhusha-line">
+    <div class="zhusha-diamond"></div>
+  </div>
+
+  <!-- 日期 -->
+  <div class="date-band">
+    <div class="date-txt" id="dateDisplay">讀取中...</div>
+    <div class="date-dot"></div>
+    <div class="date-txt" id="gzDisplay">—</div>
+  </div>
+
+  <!-- 主體 -->
+  <div class="body">
+
+    <div class="sec-title">
+      <div class="sec-title-line"></div>
+      <div class="sec-title-mark"></div>
+      <div class="sec-title-txt">所問之事</div>
+      <div class="sec-title-mark"></div>
+      <div class="sec-title-line"></div>
+    </div>
+
+    <div class="intent-grid">
+      <button class="intent-btn" onclick="pickIntent(this,'運勢')">整體<br>運勢</button>
+      <button class="intent-btn" onclick="pickIntent(this,'求財')">求財<br>事業</button>
+      <button class="intent-btn" onclick="pickIntent(this,'感情')">感情<br>姻緣</button>
+      <button class="intent-btn" onclick="pickIntent(this,'健康')">身心<br>健康</button>
+      <button class="intent-btn" onclick="pickIntent(this,'考試')">考試<br>文書</button>
+      <button class="intent-btn" onclick="pickIntent(this,'工作')">工作<br>職場</button>
+      <button class="intent-btn" onclick="pickIntent(this,'創業')">創業<br>規劃</button>
+      <button class="intent-btn" onclick="pickIntent(this,'出行')">出行<br>旅途</button>
+    </div>
+
+
+    <div class="sec-title">
+      <div class="sec-title-line"></div>
+      <div class="sec-title-mark"></div>
+      <div class="sec-title-txt">誠心求籤</div>
+      <div class="sec-title-mark"></div>
+      <div class="sec-title-line"></div>
+    </div>
+
+    <div class="ritual" style="text-align:center;padding:24px 0 20px">
+      <div id="shakeBtn" onclick="drawWithShake()" style="
+        display:inline-flex;flex-direction:column;align-items:center;gap:8px;
+        cursor:pointer;user-select:none;
+      ">
+        <div style="
+          width:100px;height:100px;border-radius:50%;
+          background:radial-gradient(circle at 35% 30%, #C02020, #8B1A1A);
+          border:2px solid #C8921A;
+          display:flex;flex-direction:column;align-items:center;justify-content:center;
+          box-shadow:0 0 24px rgba(139,26,26,0.5), 0 4px 16px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
+          transition:all .2s;
+          gap:2px;
+        " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+          <span style="font-size:13px;font-family:'Noto Serif TC',serif;letter-spacing:5px;color:#E8B84B">求籤</span>
+        </div>
+        <div style="font-size:9px;color:rgba(200,146,26,0.35);letter-spacing:4px;font-family:'Noto Serif TC',serif">心誠則靈 · 一事一籤</div>
+      </div>
+    </div>
+
+    <div class="loading" id="loadingMsg" style="display:none;">
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:280px;gap:0;width:100%;text-align:center;">
+
+        <!-- 煙霧層 -->
+        <div style="position:relative;width:120px;height:80px;margin-bottom:-10px;">
+          <svg viewBox="0 0 120 80" width="120" height="80" style="overflow:visible;">
+            <!-- 左煙 -->
+            <path id="smoke1" d="M38,70 Q32,50 38,35 Q44,20 36,8" stroke="rgba(200,180,140,0.35)" stroke-width="3" fill="none" stroke-linecap="round">
+              <animate attributeName="d" dur="3s" repeatCount="indefinite"
+                values="M38,70 Q32,50 38,35 Q44,20 36,8;
+                        M38,70 Q44,52 36,36 Q28,20 38,6;
+                        M38,70 Q32,50 38,35 Q44,20 36,8"/>
+              <animate attributeName="opacity" dur="3s" repeatCount="indefinite" values="0.5;0.8;0.5"/>
+            </path>
+            <!-- 中煙 -->
+            <path d="M60,70 Q54,48 60,32 Q66,16 58,4" stroke="rgba(210,190,150,0.45)" stroke-width="3.5" fill="none" stroke-linecap="round">
+              <animate attributeName="d" dur="2.5s" repeatCount="indefinite"
+                values="M60,70 Q54,48 60,32 Q66,16 58,4;
+                        M60,70 Q66,50 58,33 Q50,16 62,2;
+                        M60,70 Q54,48 60,32 Q66,16 58,4"/>
+              <animate attributeName="opacity" dur="2.5s" repeatCount="indefinite" values="0.6;1;0.6"/>
+            </path>
+            <!-- 右煙 -->
+            <path d="M82,70 Q88,50 82,35 Q76,20 84,8" stroke="rgba(200,180,140,0.35)" stroke-width="3" fill="none" stroke-linecap="round">
+              <animate attributeName="d" dur="3.5s" repeatCount="indefinite"
+                values="M82,70 Q88,50 82,35 Q76,20 84,8;
+                        M82,70 Q76,52 84,36 Q92,20 80,6;
+                        M82,70 Q88,50 82,35 Q76,20 84,8"/>
+              <animate attributeName="opacity" dur="3.5s" repeatCount="indefinite" values="0.4;0.7;0.4"/>
+            </path>
+          </svg>
+        </div>
+
+        <!-- 籤筒 SVG -->
+        <div id="qianTong" style="transform-origin:center bottom;">
+          <svg viewBox="0 0 120 160" width="100" height="133" style="filter:drop-shadow(0 8px 20px rgba(0,0,0,0.6));">
+            <!-- 筒身 -->
+            <defs>
+              <linearGradient id="tubGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" style="stop-color:#6B1A1A"/>
+                <stop offset="30%" style="stop-color:#A02020"/>
+                <stop offset="60%" style="stop-color:#C02828"/>
+                <stop offset="100%" style="stop-color:#7A1A1A"/>
+              </linearGradient>
+              <linearGradient id="rimGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" style="stop-color:#7A5800"/>
+                <stop offset="50%" style="stop-color:#C8921A"/>
+                <stop offset="100%" style="stop-color:#7A5800"/>
+              </linearGradient>
+            </defs>
+            <!-- 筒身主體 -->
+            <rect x="20" y="30" width="80" height="120" rx="8" fill="url(#tubGrad)"/>
+            <!-- 筒身紋路 -->
+            <rect x="20" y="50" width="80" height="2" fill="rgba(200,146,26,0.3)"/>
+            <rect x="20" y="130" width="80" height="2" fill="rgba(200,146,26,0.3)"/>
+            <!-- 通通靈文字 -->
+            <text x="60" y="100" text-anchor="middle" font-family="Noto Serif TC,serif" font-size="13" fill="rgba(200,146,26,0.8)" letter-spacing="2">通通靈</text>
+            <!-- 頂部金邊 -->
+            <rect x="18" y="26" width="84" height="10" rx="4" fill="url(#rimGrad)"/>
+            <!-- 底部金邊 -->
+            <rect x="18" y="146" width="84" height="10" rx="4" fill="url(#rimGrad)"/>
+            <!-- 筒口橢圓 -->
+            <ellipse cx="60" cy="30" rx="42" ry="10" fill="#8B1A1A"/>
+            <ellipse cx="60" cy="30" rx="38" ry="7" fill="#1A0800"/>
+            <!-- 籤棒們 -->
+            <g id="sticks">
+              <rect x="52" y="-20" width="5" height="55" rx="2" fill="#C8921A" transform="rotate(-8,54,30)"/>
+              <rect x="58" y="-25" width="5" height="58" rx="2" fill="#D4A030" transform="rotate(2,60,30)"/>
+              <rect x="64" y="-18" width="5" height="53" rx="2" fill="#B87820" transform="rotate(10,66,30)"/>
+              <rect x="56" y="-22" width="4" height="56" rx="2" fill="#E0B040" transform="rotate(-3,58,30)"/>
+              <rect x="62" y="-16" width="4" height="52" rx="2" fill="#C09020" transform="rotate(6,64,30)"/>
+            </g>
+          </svg>
+        </div>
+
+        <!-- 文字 -->
+        <div class="loading-txt" style="margin-top:16px;color:rgba(240,220,180,0.95);">觀音娘娘降旨中⋯</div>
+      </div>
+    </div>
+
+    <!-- 結果捲軸 -->
+    <div id="resultScroll" style="
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:1000;
+  background:rgba(10,3,0,0.85);
+  align-items:center;
+  justify-content:center;
+  padding:0;
+  overflow-y:auto;
+  animation: overlayFadeIn 0.3s ease forwards;
+">
+
+  <!-- 卷軸容器 -->
+  <div id="scrollInner" style="
+    position:relative;
+    width:min(360px, 84vw);
+    margin:0 auto;
+    padding:20px 0 20px;
+  ">
+
+    <!-- X 關閉按鈕 -->
+    <button onclick="reset()" style="
+      position:fixed;
+      top:16px; right:16px;
+      width:36px; height:36px;
+      border-radius:50%;
+      background:rgba(200,146,26,0.15);
+      border:1px solid rgba(200,146,26,0.4);
+      color:rgba(200,146,26,0.9);
+      font-size:18px;
+      cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+      z-index:1001;
+      line-height:1;
+    ">✕</button>
+
+    <!-- 捲軸頂桿：往上飛出 -->
+    <div id="rodTop" style="height:22px;
+      background: repeating-linear-gradient(90deg, transparent, transparent 18px, rgba(0,0,0,0.04) 18px, rgba(0,0,0,0.04) 20px),
+      linear-gradient(to bottom, #2A1400 0%, #6B3A0A 15%, #A0621A 30%, #C08030 45%, #D4A050 50%, #B87030 55%, #8B5018 70%, #5A2E08 85%, #2A1400 100%);
+      border-radius:11px; position:relative; z-index:2;
+      box-shadow:0 4px 16px rgba(0,0,0,0.75), inset 0 1px 0 rgba(255,200,100,0.25);
+      animation: rodTop 1.2s cubic-bezier(.16,1,.3,1) forwards;">
+      <div style="position:absolute;top:50%;left:-10px;transform:translateY(-50%);width:26px;height:26px;border-radius:50%;background:radial-gradient(circle at 35% 28%,#E8C060 0%,#B07820 40%,#6A4008 75%,#3A1E00 100%);box-shadow:0 3px 8px rgba(0,0,0,0.7);"></div>
+      <div style="position:absolute;top:50%;right:-10px;transform:translateY(-50%);width:26px;height:26px;border-radius:50%;background:radial-gradient(circle at 35% 28%,#E8C060 0%,#B07820 40%,#6A4008 75%,#3A1E00 100%);box-shadow:0 3px 8px rgba(0,0,0,0.7);"></div>
+    </div>
+
+    <!-- 籤紙主體：從中間往上下展開 -->
+    <div id="paperBody" style="background:#F2E8D0; border:6px solid #D41A1A; overflow:hidden; transform-origin: center center; animation: paperUnroll 1.0s cubic-bezier(.16,1,.3,1) 0.1s both; position:relative; box-shadow:0 4px 40px rgba(0,0,0,0.8);">
+      <div style="border:2px solid #D41A1A; margin:5px; padding:0;">
+
+        <!-- 花紋橫帶頂部 -->
+        <div style="background:#D41A1A; height:28px; display:flex; align-items:center; justify-content:center; overflow:hidden;">
+          <span style="color:rgba(255,255,255,0.7);font-size:13px;letter-spacing:2px;">❧ ✦ ❧ ✦ ❧ ✦ ❧ ✦ ❧ ✦ ❧ ✦ ❧ ✦ ❧ ✦ ❧ ✦ ❧ ✦ ❧</span>
+        </div>
+
+        <!-- 等級大字 -->
+        <div style="padding:18px 16px 14px; text-align:center; border-bottom:2px solid #D41A1A; background:#F2E8D0;">
+          <div id="rGrade" style="font-family:'Noto Serif TC',serif; font-size:52px; font-weight:900; color:#1A1A1A; letter-spacing:12px; line-height:1;">上上籤</div>
+        </div>
+
+        <!-- 花紋橫帶中部 -->
+        <div style="background:#D41A1A; height:28px; display:flex; align-items:center; justify-content:center; overflow:hidden;">
+          <span style="color:rgba(255,255,255,0.7);font-size:13px;letter-spacing:2px;">❧ ✦ ❧ ✦ ❧ ✦ ❧ ✦ ❧ ✦ ❧ ✦ ❧ ✦ ❧ ✦ ❧ ✦ ❧ ✦ ❧</span>
+        </div>
+
+        <!-- 直排籤詩 -->
+        <div style="padding:20px 16px 20px; background:#F2E8D0; border-bottom:2px solid #D41A1A;">
+          <div id="rPoem" style="display:flex; flex-direction:row; justify-content:center; gap:16px; min-height:160px;"></div>
+        </div>
+
+        <!-- 花紋橫帶底部 -->
+        <div style="background:#D41A1A; height:28px; display:flex; align-items:center; justify-content:center; overflow:hidden;">
+          <span style="color:rgba(255,255,255,0.7);font-size:13px;letter-spacing:2px;">❧ ✦ ❧ ✦ ❧ ✦ ❧ ✦ ❧ ✦ ❧ ✦ ❧ ✦ ❧ ✦ ❧ ✦ ❧ ✦ ❧</span>
+        </div>
+
+        <!-- 籤號 -->
+        <div style="padding:10px 16px; background:#F2E8D0; text-align:center;">
+          <div style="border:2px solid #D41A1A; padding:8px 20px; display:inline-block;">
+            <span style="font-family:'Noto Serif TC',serif; font-size:16px; color:#1A1A1A; letter-spacing:4px; font-weight:700;">第 <span id="rNum">01</span> 籤</span>
+          </div>
+          <div id="rStory" style="font-family:'Noto Serif TC',serif;font-size:10px;color:#999;letter-spacing:2px;margin-top:6px;"></div>
+        </div>
+
+      </div>
+
+      <!-- 解曰 -->
+      <div style="background:#F2E8D0; border-top:3px solid #D41A1A; padding:14px 18px 6px;">
+        <div style="font-family:'Noto Serif TC',serif; font-size:11px; color:#D41A1A; letter-spacing:6px; text-align:center; margin-bottom:10px;">— 解　曰 —</div>
+        <div id="rInterp" style="font-family:'Noto Serif TC',serif; font-size:12px; line-height:2.2; color:#333; letter-spacing:1px; text-align:justify; margin-bottom:14px;"></div>
+        <div id="rCat" style="font-family:'Noto Serif TC',serif;font-size:10px;color:#bbb;letter-spacing:3px;text-align:center;margin-bottom:12px;"></div>
+      </div>
+    </div>
+
+    <!-- 捲軸底桿：往下飛出 -->
+    <div id="rodBottom" style="height:22px;
+      background: repeating-linear-gradient(90deg, transparent, transparent 18px, rgba(0,0,0,0.04) 18px, rgba(0,0,0,0.04) 20px),
+      linear-gradient(to bottom, #2A1400 0%, #6B3A0A 15%, #A0621A 30%, #C08030 45%, #D4A050 50%, #B87030 55%, #8B5018 70%, #5A2E08 85%, #2A1400 100%);
+      border-radius:11px; position:relative; z-index:2;
+      box-shadow:0 -4px 16px rgba(0,0,0,0.75), inset 0 1px 0 rgba(255,200,100,0.25);
+      animation: rodBottom 1.2s cubic-bezier(.16,1,.3,1) forwards;">
+      <div style="position:absolute;top:50%;left:-10px;transform:translateY(-50%);width:26px;height:26px;border-radius:50%;background:radial-gradient(circle at 35% 28%,#E8C060 0%,#B07820 40%,#6A4008 75%,#3A1E00 100%);box-shadow:0 3px 8px rgba(0,0,0,0.7);"></div>
+      <div style="position:absolute;top:50%;right:-10px;transform:translateY(-50%);width:26px;height:26px;border-radius:50%;background:radial-gradient(circle at 35% 28%,#E8C060 0%,#B07820 40%,#6A4008 75%,#3A1E00 100%);box-shadow:0 3px 8px rgba(0,0,0,0.7);"></div>
+    </div>
+
+  </div><!-- /scrollInner -->
+</div>
+
+</div>
+
+  </div><!-- /.body -->
+
+  <div class="footer" id="siteFooter">
+    <div class="footer-txt">◈ 通通靈 · 道法自然 · 信者有福 ◈</div>
+  </div>
+
+</div>
+
+<script>
+// ═══════════════════════════════════════════════
+// 觀音百首靈籤 資料庫
+// ═══════════════════════════════════════════════
+const ORACLES=[
+{n:1,title:"宋太祖黃袍加身",grade:"上上",poem:"天開地闢結良緣\n日吉時良萬事全\n若得此籤非小可\n人行中正帝王宣",interp:"此籤為百籤之首，上上大吉。天時地利人和俱備，所求之事正當其時。行事光明磊落，忠正誠信，必得上天眷顧，事事圓滿。"},
+{n:2,title:"姜太公渭水垂釣",grade:"中",poem:"鯨魚未化守江湖\n未許升騰離碧波\n異日崢嶸身變態\n從教一躍禹門過",interp:"此刻時機未到，宜如姜太公般守候待時，不可急躁躁進。耐心蟄伏，等待貴人出現，時機一到必然一躍成名，魚躍龍門前程可期。"},
+{n:3,title:"燕將獨守聊城",grade:"下",poem:"衝風冒雨去還歸\n役役勞身似燕兒\n啣得泥來呈疊後\n到頭疊壞復成泥",interp:"此籤象徵辛苦而成效不彰，如燕子銜泥築巢，壘成又壞，反覆無功。當前努力難見成果，建議暫緩行動，重新審視方向，避免白費心力。"},
+{n:4,title:"長樂老歷相五代",grade:"中上",poem:"菱花鏡破復重圓\n女再求夫男再婚\n自此門閭重改換\n更添福祿與兒孫",interp:"否極泰來，破鏡重圓之象。家門將有重大轉機，感情或婚姻方面有重新開始的機緣。此後家運轉盛，福祿延及子孫，是新生的好兆頭。"},
+{n:5,title:"燕昭王為郭隗築黃金臺",grade:"中平",poem:"一鋤掘地要求泉\n努力求之得最先\n無意俄然遇知己\n相逢攜手上青天",interp:"刻意強求往往事倍功半，反而在無意間遇到真正的知音貴人。此籤提示放下執念，以誠心待人，貴人自然相聚，攜手共創前程。"},
+{n:6,title:"藺相如完璧歸趙",grade:"中平",poem:"投身巖下飼於菟\n須是還他大丈夫\n捨己也應難再得\n通行天下此人無",interp:"需要智勇兼備才能化解當前困境。如藺相如完璧歸趙，以膽識與謀略應對，及早籌謀布局，方能全身而退，無往不利。"},
+{n:7,title:"廉將軍思用趙人",grade:"中平",poem:"奔波役役重重險\n帶水拖泥又渡山\n更慮他方求別用\n千山萬水未能還",interp:"此刻奔波勞碌，阻礙重重，有志難伸之感。在外求發展困難重重，不如守本待時。異鄉漂泊難有所成，靜待機緣，返璞歸真方為上策。"},
+{n:8,title:"範文公斷虀畫粥",grade:"上",poem:"歲寒松柏古栽培\n雨雪風霜總不摧\n異日必當成大用\n功名作個棟樑材",interp:"如松柏挺立，歷經風雪依然茁壯。眼前雖有磨礪，正是蓄積能量之時，終有一日大放異彩，成為棟樑之才，功名就在前方。"},
+{n:9,title:"趙韓王半部論語定天下",grade:"上上",poem:"勞苦問我心中事\n此意偏宜說向公\n一片靈臺明似鏡\n恰如明月正當空",interp:"心存公正，不謀私利，光明磊落如皓月當空。此籤提示凡事以公心處之，心無雜念則自然清明，所求之事自然通達，貴人相助。"},
+{n:10,title:"秦昭王連城求趙璧",grade:"中平",poem:"櫝藏無價寶和珍\n只管他鄉外處尋\n好似將燈來覔火\n不如安靜莫勞心",interp:"寶物就在身邊，卻捨近求遠，如持燈找火，徒勞無功。此刻不必向外尋求，回頭審視自身已有的資源，善加利用，方為明智。"},
+{n:11,title:"劉先生入贅東吳",grade:"上上",poem:"欲求好事喜非常\n爭相姻親只暫忙\n畢竟到頭成好事\n貴人接引貴人鄉",interp:"有貴人在前方等候指引，雖然眼前事務繁忙，親情姻緣之事也有波動，但最終必有貴人相助，引領前往更好的境地。"},
+{n:12,title:"包胥九頓泣秦庭",grade:"上上",poem:"時臨否極泰當來\n抖擻從君出暗埃\n若欲卯寅佳信至\n管教立志事和諧",interp:"否極泰來，好消息即將到來。在忙碌紛亂中保持意志力，與君子交往共事，在特定時機將有佳音，忙碌之後自然迎來安定。"},
+{n:13,title:"信陵君存趙辭封",grade:"上上",poem:"自小生身富貴家\n眼前萬事總奢華\n要君賜受金魚袋\n四海傳名足可誇",interp:"出身優越，貴氣天成，此刻更得上位者賞識賜福。名聲將廣傳四海，榮耀加身，貴人賜予機遇，把握此刻盡情展現才華。"},
+{n:14,title:"管仲三熏三沐見齊桓",grade:"大吉",poem:"宛如仙鶴出樊籠\n脫却羈縻處處通\n南北東西無障碍\n任君直上九霄中",interp:"大吉之籤，如仙鶴脫籠，自此海闊天空，無拘無束。束縛解除，前途豁然開朗，四方皆通，任意翱翔，直衝雲霄，前程無可限量。"},
+{n:15,title:"商君不聽趙良言",grade:"下",poem:"觸人口氣最難吞\n忽有災危禍到門\n卵破巢空無宿處\n深為穩便把心存",interp:"此籤示警，有意外災禍之象。此時切勿逞強，遠離是非之地，低調退守，尋一穩妥之處安身保命，小心謹慎方能化險為夷。"},
+{n:16,title:"明神宗要活海瑞",grade:"中上",poem:"攢眉思慮暫時開\n咫尺雲開見日來\n宛如汙泥中片玉\n良工一舉出塵埃",interp:"原本被埋沒的才能，即將被伯樂發現。困境逐漸解開，喜訊將至，如玉石埋於泥土終被良工慧眼識出，一朝出頭，光彩照人。"},
+{n:17,title:"李斯遺藥殺韓非",grade:"中",poem:"莫聽閑言與是非\n晨昏只好念阿彌\n若將妄語為真實\n畫餅如何療得飢",interp:"此時謠言是非四起，切莫輕信閒話。保持心中正念，以平靜之心應對流言，不要被虛假言論迷惑而做出錯誤判斷，免招禍端。"},
+{n:18,title:"鬼谷子演課",grade:"上上",poem:"金烏西墜兔東臨\n日夜循環恒古今\n僧道得之無不利\n工商農士各開心",interp:"天道循環，自有定數。無論從事何種行業，此時皆得天時，各安其位各盡其職，順天應人則萬事皆宜，所求之事自然水到渠成。"},
+{n:19,title:"楊雄仕新為莽大夫",grade:"中",poem:"急水灘頭放艇時\n狂風作浪欲何為\n待他浪靜風停後\n穩載船歸過不危",interp:"如行船於急流險灘，此時局勢動盪，波濤洶湧。切勿強行前進，靜待風浪平息，危機自然化解，安然渡過眼前難關。"},
+{n:20,title:"蘇武援官典屬國",grade:"上上",poem:"當春久雨喜初晴\n玉兔金烏漸漸明\n舊事已成新事遂\n看看一跳入蓬瀛",interp:"久雨初晴，陰霾盡散，一切轉好。舊有的困境與煩惱逐漸消散，新的機緣即將到來，好比魚躍龍門，時機已至，把握此刻飛躍。"},
+{n:21,title:"邵康節定陰陽",grade:"上吉",poem:"陰陽道合總由天\n女嫁男婚豈偶然\n但看龍蛇堪運動\n熊羆叶夢喜團圓",interp:"此籤主婚姻喜慶，天定良緣，陰陽相合。求婚姻者大吉，有情人終成眷屬，夢中吉兆預示家庭圓滿，喜事將臨，合家歡樂。"},
+{n:22,title:"王孝先為民祈禱",grade:"上吉",poem:"四郊田畝皆枯竭\n久旱俄然三日霖\n花果草芽俱潤澤\n始知一雨值千金",interp:"久旱逢甘霖，渴望已久的事情終於得到回應。如天降及時雨，滋潤萬物，此刻的助力或轉機正是千金難求之物，倍加珍惜把握。"},
+{n:23,title:"孫策以璽借袁兵",grade:"上平",poem:"欲攀仙桂蟾宮去\n豈慮天門不放開\n謀望一般音信好\n高人自送嶺頭來",interp:"有好消息即將傳來，令眾人欣喜。雖然眼前目標暫時不在掌握之中，但忽然而至的佳音將帶來新的轉機，高人自然相助。"},
+{n:24,title:"文種不聽范少伯",grade:"下",poem:"不成鄰里不成家\n水泡痴人似落花\n若問君恩難得力\n到頭畢竟事如蔴",interp:"此籤示警，感情或事業皆顯散漫，缺乏根基，到頭來麻煩纏身。宜聽取善意忠言，及早調整方向，莫重蹈覆轍。"},
+{n:25,title:"伍子胥過昭關",grade:"上中",poem:"過了憂危第幾重\n從今再歷永無凶\n寬心自有寬心計\n得遇高人護聖功",interp:"歷經重重險阻之後，危機已過，否極泰來。此後重新建立根基，將有高人相助，共立大功。放寬心懷，自有化解之道，前途光明。"},
+{n:26,title:"桓溫得殷浩書",grade:"平",poem:"上下傳來事總虛\n天邊接得一封書\n書中許我功名事\n直待終時亦是無",interp:"此籤提示言過其實，所傳來的消息或承諾恐難兌現。功名利祿看似近在眼前，實則虛幻，不宜輕信空口承諾，謹慎評估再行動。"},
+{n:27,title:"李鄴侯白衣宰相",grade:"中中",poem:"一謀一用一番機\n慮後疑前不敢為\n時至自然逢貴助\n銀牆鐵壁好安居",interp:"此時宜謹慎思量，三思而後行。雖然暫時裹足不前，但貴人自會在適當時機出現相助，屆時根基穩固如山，安居樂業可期。"},
+{n:28,title:"孟嘗君雞鳴度關",grade:"上上",poem:"東方月上正嬋娟\n頃刻雲遮月半邊\n莫道圓時還又缺\n須教缺處復重圓",interp:"月有陰晴圓缺，世事本無常。目前雖有雲遮月暗之象，但月終有圓時，眼前的困難是暫時的，靜待轉機，必有圓滿之日。"},
+{n:29,title:"百里奚食牛入相",grade:"大吉",poem:"寶劍光芒出匣時\n匣中應不被塵欺\n貴人親手提攜起\n儘可防身更無疑",interp:"大吉！久藏之才此刻大放光芒，得貴人賞識提攜，威名遠播，眾人欽佩，前途無量。"},
+{n:30,title:"楚懷主入秦武關",grade:"中中",poem:"勸君切莫向他求\n似鶴飛來暗箭投\n若去採薪蛇伏草\n恐遭毒手也堪憂",interp:"此籤示警，提防小人暗算，輕易求助他人恐有被算計之危，謹慎行事，避開潛藏的危險。"},
+{n:31,title:"達摩面壁",grade:"中中",poem:"清閑無事靜處坐\n飢時吃飯困時臥\n放下身心不用忙\n必定不遭殃與禍",interp:"如達摩面壁禪定，此時最宜靜心修身。不必東奔西跑費心勞力，守靜處閒反而能避開是非禍患，心平氣和萬事自然安泰。"},
+{n:32,title:"常何薦馬周",grade:"中中",poem:"渺渺前途事可疑\n石中藏玉有誰知\n一朝良臣分明剖\n始覺其中碧玉奇",interp:"才能如玉藏石中，暫時不被人知。前途雖看似渺茫，但真才實學終會被識才之人發現，一旦遇到慧眼識英雄之人，必然大放光彩。"},
+{n:33,title:"鮑叔進管仲",grade:"中中",poem:"石藏美玉在中心\n得指何須向外尋\n直待高人來剖析\n恰如靈雨滌煩襟",interp:"寶藏就在自身，無需外求。自身的能力與價值早已具足，只需耐心等待識才的高人，不必急於表現，寬心靜待自然水到渠成。"},
+{n:34,title:"文中子上太平策",grade:"上上",poem:"出入行藏禮義恭\n言必忠良聽必聰\n心下了然俱洞徹\n光明如日正當空",interp:"以禮義忠信為本，言行一致，心地純潔光明。此刻如日正中天，行事磊落坦蕩，必得上天賜福，光明正大，諸事皆宜。"},
+{n:35,title:"劉關張古城相會",grade:"上上",poem:"衣冠重整就宿風\n道是無功卻有功\n掃卻當途荊棘碍\n三人共議事相同",interp:"失散後重聚，重整旗鼓之象。掃清前路障礙，志同道合之人再度攜手，共謀大計，家業重振，義氣相聚必能成就大事。"},
+{n:36,title:"劉先主進葭朋關",grade:"上上",poem:"目前病訟不須憂\n實地資財儘可求\n恰好繫猿今脫鎖\n得歸仙洞去來遊",interp:"如猿猴脫去金鎖，自由自在。眼前的病痛、官司或煩惱皆可化解，財運亨通，資源豐足，一切束縛解除，前途自由開闊。"},
+{n:37,title:"管公明避隱遼東",grade:"平平",poem:"欲問身安運泰時\n風中燈燭不相宜\n爭如收拾深堂坐\n庶免光搖近處期",interp:"此時如風中燈燭，局勢不穩，不宜輕舉妄動。退回安靜處等待時機，守靜避風，待局勢穩定再出手，靜中自有明智之道。"},
+{n:38,title:"淮陰侯背楚歸漢",grade:"中平",poem:"鏡月當空出匣時\n剎那雲霧暗迷離\n寬心守待浮雲散\n更改相宜可望為",interp:"月光明亮卻忽被雲霧遮蔽，事情突生變數。保持寬心信念，雲霧終將散去，此時可趁機調整方向，重新部署，轉機即將到來。"},
+{n:39,title:"曹操遣禰衡投黃祖",grade:"中平",poem:"天邊消息應難問\n切莫私心強望求\n若把石頭磨作鏡\n精神枉費一時休",interp:"有些事情強求不來，如以石頭磨鏡終屬徒勞。不必費心猜測遠方消息，也不必強求難以實現的目標，順其自然方為上策。"},
+{n:40,title:"馬援女為皇后",grade:"平中",poem:"紅輪西墜兔東升\n陰長陽消是兩形\n若是女人占此卦\n增添福祿稱心情",interp:"陰陽轉換，時勢變化，女性運勢特別旺盛。此籤對女性求事尤為吉利，財祿增添，心想事成。男性也可借助女性貴人之力成事。"},
+{n:41,title:"董卓郿塢藏金",grade:"平中",poem:"無限好事君須記\n恰如認賊作為子\n莫貪眼下有些甜\n可慮他時還受苦",interp:"警示勿因貪眼前小利而誤大事。花言巧語背後可能藏有陷阱，看清真偽，莫讓一時甜頭蒙蔽判斷，以免日後受苦。"},
+{n:42,title:"溫公入相除新法",grade:"上",poem:"君垂恩澤潤無邊\n覆禱祈禳沒黨偏\n一切有情皆受用\n均沾樂利得週全",interp:"上得天恩，下得民心，諸事皆得圓滿。祈求之事蒙神明庇佑，無有損耗只有增益，有情眾生皆受其福，人間天上同享亨通。"},
+{n:43,title:"泗水亭長作天子",grade:"大吉",poem:"天地交泰萬物新\n自形自色自怡神\n森羅萬象皆精彩\n事事和諧得稱人",interp:"天地順適安泰，萬物欣欣向榮。此籤大吉，事事和諧稱心，各有各的精彩顯現，形色怡然自得，所求之事必能圓滿稱心。"},
+{n:44,title:"周郎赤壁敗曹兵",grade:"中中",poem:"棋逢對手要藏機\n黑白盤中未決時\n到底欲知誰勝負\n須教先著相機宜",interp:"棋逢對手，勝負未分。此刻需要審時度勢，冷靜分析，謀定而後動。掌握先機，靈活應對，才能在競爭中取得優勢。"},
+{n:45,title:"岳武穆精忠報國",grade:"上上",poem:"溫柔自是勝強剛\n積善于門太吉昌\n若是有人占此卦\n宛如止渴遇瓊漿",interp:"以柔克剛，積善行德，必得吉昌。此籤大吉，如久渴逢甘露，所求之事甘甜如飴，溫柔謙遜之道自能勝過剛強蠻橫。"},
+{n:46,title:"公孫弘布衣入相",grade:"中上",poem:"勸君耐守舊生涯\n把定身心莫聽邪\n直待有人輕著力\n滿園枯木再開花",interp:"守住本分，耐心等待，勿受外邪迷惑。只需有人輕輕助力，枯木也能逢春再開花。堅守正道，時機到來必能翻轉局面。"},
+{n:47,title:"蘇秦腰掛六國印",grade:"上上",poem:"錦上添花色更鮮\n運來祿馬喜雙全\n時人莫訝功名晚\n一舉登科四海傳",interp:"錦上添花，雙喜臨門。此籤上上大吉，運勢財祿雙全，功名雖來得稍晚，但一旦到來必然驚人，名傳四海，成就非凡。"},
+{n:48,title:"李謫仙長流夜郎",grade:"上中",poem:"鵾鳥秋光化作鵬\n遨翔得意盡飛騰\n直沖萬里雲霄外\n任是諸禽總不能",interp:"如鵾鳥化鵬，一飛衝天。此刻正是大展身手的時機，憑藉自身才能直衝雲霄，旁人難以比擬，盡情翱翔於廣闊天地之間。"},
+{n:49,title:"范仲淹鎮守邊疆",grade:"中平",poem:"營圖萬事若冰澌\n何必慳貪苦所為\n只好靜心閑處坐\n待他興變復奚疑",interp:"萬事如冰消雪融，不必貪求苦苦謀算。此時靜心閒處，以不變應萬變，待局勢自然轉化，疑慮自然消散，順其自然最佳。"},
+{n:50,title:"陳平六出奇計",grade:"上上",poem:"五湖四海盡行船\n高掛風帆把舵堅\n幸得順風隨所至\n滿船寶貝稱心田",interp:"順風行船，滿載而歸。此籤大吉，凡事順遂，如得順風相助，所到之處皆有收穫，財寶豐盈，心滿意足，前途一片光明。"},
+{n:51,title:"呂后殺韓信",grade:"中上",poem:"夏日初臨日正長\n人皆愁惱熱非常\n天公也解諸人意\n故遣薰風特送涼",interp:"酷熱難耐之際，涼風自來。此籤提示雖身處困境，但天公自有安排，解人之苦，及時送來轉機，煩惱終將消散，清涼自至。"},
+{n:52,title:"孫臏臏腳學兵法",grade:"中下",poem:"水中捉月費工夫\n費盡功夫卻又無\n莫信閑言併浪論\n枉拋心力也難圖",interp:"如水中捉月，徒勞無功。此時不宜強求，閒言浪論不可輕信，強行追求只是枉費心力，不如放下執念，等待實際可行的機會。"},
+{n:53,title:"漢高祖登基為帝",grade:"上上",poem:"失意翻成得意時\n龍吟虎嘯兩相宜\n青雲有路終須到\n許我功名必可期",interp:"失意之後必得意，龍虎相宜大吉之象。青雲之路終究可達，功名可期，此籤鼓勵不要灰心，翻轉就在眼前，積極進取必有所成。"},
+{n:54,title:"李陵困於匈奴",grade:"下",poem:"夢中得寶醒來無\n應說巫山只是虛\n若問婚姻幷病訟\n別尋生路相得宜",interp:"如夢中得寶，醒來成空。此籤提示眼前所求如夢幻泡影，特別是婚姻、疾病、官司等事需另尋良策，不可執著於虛幻之象。"},
+{n:55,title:"周文王渭水聘賢",grade:"上上",poem:"相傳罔替子孫贊\n衣祿豐盈富在天\n金馬玉堂人快樂\n飢時吃飯困時眠",interp:"衣食豐足，天賜福祿。此籤大吉，財祿充盈，生活安樂自在，子孫代代相傳，富貴延綿，知足常樂方為人生最大智慧。"},
+{n:56,title:"李元霸力無敵",grade:"中平",poem:"澗小石粗流水響\n力勞撐駕恐損傷\n路須指出前江去\n風靜潮平儘不妨",interp:"河道險急，行進艱難，需有人指引方向。此時不可蠻幹，聽從有識之士引導，待風靜潮平，前路自然通暢，安全無虞。"},
+{n:57,title:"曹孟德橫槊賦詩",grade:"上中",poem:"聞是聞非風過耳\n好衣好祿日當空\n君須記取他年事\n汝意還同我意同",interp:"是非如風過耳，不必放在心上。好衣好祿自有天命，記取往日經驗，以誠待人，心意相通，自然福祿雙至，前途光明。"},
+{n:58,title:"楚莊王不鳴則已",grade:"中平",poem:"忠言善語君須記\n莫向他方求別藝\n勸君安守舊生涯\n除卻有餘都不是",interp:"忠言逆耳利於行，守住本業不可貪多。此時安守舊業，不必四處另謀，知足者富，守成正道，才是長久之計。"},
+{n:59,title:"陶朱公三致千金",grade:"中下",poem:"直上高樓去避身\n四邊繞處是荊榛\n誰知造物安排定\n得意番成失意人",interp:"雖暫時高處避身，四周卻荊棘重重。此籤提示得意之時需防樂極生悲，造物弄人，防止得意之後反成失意，謹慎行事。"},
+{n:60,title:"楚霸王舉鼎拔山",grade:"下",poem:"抱薪救火火增烟\n燒卻三千及大千\n若問營謀併出入\n不如收拾莫憂燃",interp:"抱薪救火，越救越旺。此籤示警，用錯方法解決問題只會使情況更糟，不如停止當前行動，收拾思緒，重新謀劃，方能止損。"},
+{n:61,title:"漢武帝駕崩托孤",grade:"中平",poem:"日上吟詩月下歌\n逢場作戲笑呵呵\n相逢會處難藏隱\n喝啋齊聲嗹哩囉",interp:"逢場作戲，聚散無常。此籤提示眼前歡聚只是一時，不必太認真，保持輕鬆豁達的心態，隨緣相聚，笑看人生百態。"},
+{n:62,title:"孔明弔祭周公瑾",grade:"上上",poem:"晨昏全賴佛扶持\n雖是逢危不見危\n若得貴人來接引\n此時福祿自相隨",interp:"佛菩薩日夜庇佑，雖逢危難卻化險為夷。此籤吉祥，有貴人引領，福祿自然隨之而來，一切危難皆能在神明護佑下化解。"},
+{n:63,title:"高士奇失寵",grade:"中下",poem:"昔日行船失了針\n今朝依舊海中尋\n若還尋得原針在\n也費工夫也費心",interp:"失去方向難以尋回，此籤提示過去失去的東西難以復得。即便費盡心力去找，也是徒費精神，不如另謀新路，重新出發。"},
+{n:64,title:"徐庶走馬薦諸葛",grade:"下",poem:"譬若金鱗放碧漪\n暗遭羅網四邊圍\n思量無計翻身出\n命到泉關苦獨悲",interp:"如金魚遭網四面包圍，此籤示警，處境艱難四面受困，此刻思慮萬端卻難以脫身，需格外謹慎，避免陷入更深的困境。"},
+{n:65,title:"太公望封神",grade:"中下",poem:"眼前歡喜未為歡\n危不危兮安不安\n割肉成瘡因甚事\n不如守舊得安全",interp:"眼前的歡喜未必是真歡喜，安危難以判斷。此時不宜輕舉妄動，守住舊有的安全比冒險換取短暫歡喜更為明智。"},
+{n:66,title:"文王被囚羑里",grade:"下",poem:"路險馬行人去遠\n失群羊困虎相當\n危灘船過風翻浪\n春暮花殘天降霜",interp:"此籤示警，前路險峻危機四伏，如孤羊遇虎，船過危灘。此刻需格外謹慎，切勿冒進，靜待困境解除，方能安然度過。"},
+{n:67,title:"王祥臥冰求鯉",grade:"上上",poem:"一條金秤等君情\n無增無減無重輕\n為是平生心正直\n文章不識義皆明",interp:"心地正直，公正如金秤。此籤提示以誠信正直待人處世，無偏無私，雖不識文章，但義理自明，正直之人自得天道護佑。"},
+{n:68,title:"伯樂識馬",grade:"上上",poem:"門庭清吉夢禎祥\n積善于門大吉昌\n訟理婚成蠶又熟\n病逢良藥得安康",interp:"門庭清吉，諸事吉祥。積善之家必有餘慶，官司有理必勝，婚姻成就，疾病逢良藥得安康，大吉大利，所求皆遂。"},
+{n:69,title:"臥薪嘗膽復仇",grade:"中上",poem:"冬來嶺上一枝梅\n葉落枯枝總不摧\n探得陽春消息近\n依然還我做花魁",interp:"如冬梅傲立，雖枯枝落葉卻不倒。此籤提示雖處逆境，春天訊息已近，堅持不放棄，時機到來必能重回顛峰，獨占花魁。"},
+{n:70,title:"西楚霸王分封諸侯",grade:"中平",poem:"朝朝役役恰如蜂\n飛來飛去西復東\n春暮花殘無覔處\n此身不戀舊叢中",interp:"如蜜蜂忙碌奔波，東奔西走卻難有所獲。此籤提示不要留戀舊有，花殘時節需懂得放下，另尋新的方向，才能找到新的出路。"},
+{n:71,title:"楊文廣掛帥征西",grade:"中上",poem:"誰知愛寵遇強徒\n女子當年嫁二夫\n自是一弓施兩箭\n騎龍跨馬上安居",interp:"此籤有雙重機緣之象，看似複雜的局面卻能找到巧妙的解決之道。以一舉兩得的策略應對，最終騎龍跨馬，安居樂業。"},
+{n:72,title:"姜維九伐中原",grade:"中下",poem:"弄蜂須要求他蜜\n只怕遭他尾上針\n雖是眼前有異路\n暗裏深藏荊棘林",interp:"弄蜂求蜜，卻怕蜂針。此籤警示眼前看似有捷徑，實則暗藏荊棘，提醒謹慎評估，不要被表面的誘惑迷惑，以免受傷。"},
+{n:73,title:"二程夫子論道",grade:"上上",poem:"春雷震起蟄中蟲\n脫卻塵凡出舊墉\n忽遇風雲交際處\n自然變化得成龍",interp:"春雷震蟄，化龍飛天。此籤大吉，如蟄蟲逢春雷，得遇風雲際會，自然蛻變成龍。此刻正是蛻變飛躍的最佳時機。"},
+{n:74,title:"蔡邕聞琴識馬融",grade:"下",poem:"慵飛野鶴自投籠\n欲舉鵬霄落陷中\n南北東西混障碍\n此身憔悴恨無窮",interp:"此籤示警，如野鶴自投羅籠，欲高飛卻落陷阱。四面障礙重重，身陷困境，此時需靜待時機，切勿強行突破，以免更加憔悴。"},
+{n:75,title:"狄仁傑辨奸懷英",grade:"中上",poem:"宛如抱虎過山前\n戰戰兢兢膽碎寒\n幸得山前逢妙手\n方能保得一身安",interp:"如抱虎過山，驚心動魄。此籤提示當前情況險峻，需格外謹慎。幸而有妙手高人相助，方能化危為安，度過難關保全自身。"},
+{n:76,title:"孟嘗君善用雞鳴狗盜",grade:"上上",poem:"魚龍混雜意和同\n耐守寒潭未濟中\n不覺一朝頭角聳\n禹門一跳到天宮",interp:"魚龍混雜，耐心守候。此籤提示雖目前尚在低潮，只需耐心等待，突破時刻自然到來，一朝頭角崢嶸，鯉魚躍龍門直達天宮。"},
+{n:77,title:"賈長沙痛哭鳳凰",grade:"中平",poem:"夢中說夢獲多財\n身外浮名總莫猜\n永遠山遙難信定\n貴人一指笑顏開",interp:"夢中財富終是虛幻，浮名難以捉摸。此籤提示不可追求虛名浮利，但若有貴人指引，一切豁然開朗，笑顏展開，所求可期。"},
+{n:78,title:"武訓興學",grade:"中平",poem:"冷水來澆白雪洋\n不寒不熱自溫涼\n要行天下無他事\n惟有中藏一藝強",interp:"不冷不熱，溫涼適中，守中之道。此籤提示行走天下最重要的是一門真本事，靠真才實藝方能立足，中庸之道自有其妙處。"},
+{n:79,title:"王寶釧苦守寒窯",grade:"中平",poem:"虛空結愿結人緣\n保得人安愿未還\n得兔忘蹄真絕跡\n敢將初誓謾輕瞞",interp:"許願結緣，卻忘記還願。此籤提示不可忘恩負義，承諾過的事情必須兌現，誠信是立身之本，勿讓初心與誓言隨風而逝。"},
+{n:80,title:"漢光武帝中興",grade:"上上",poem:"直上高山去學仙\n豈知一旦帝王宣\n青天白日常明照\n志在聲名四海傳",interp:"志向高遠，終得帝王賞識。此籤大吉，青天白日光明常照，志氣所在，聲名自然廣傳四海，所求之事必能一飛衝天，大獲成功。"},
+{n:81,title:"諸葛恪把持朝綱",grade:"上",poem:"庭前葉落暮秋時\n行客奔程勢若飛\n謝得天公輕着力\n順風相送寶船歸",interp:"秋葉飄落，順風歸航。得天公相助，輕巧順遂，寶船滿載而歸。此籤提示凡事有上天護佑，順勢而行，成功唾手可得。"},
+{n:82,title:"孫龐鬥法",grade:"上上",poem:"炎炎烈火焰燒天\n焰裡還生一朵蓮\n到底永成根不壞\n依然枝葉色新鮮",interp:"烈火中生蓮，不壞不滅。此籤大吉，象徵歷經磨難卻能永保清淨本質，根基不壞，枝葉常新，艱難之中必然生出美好的結果。"},
+{n:83,title:"蕭何月下追韓信",grade:"中上",poem:"譬若初三四五蟾\n半無半有未完全\n須教十五良宵夜\n到處清光到處圓",interp:"如初三月牙，尚未圓滿。此籤提示事情尚在發展之中，時機未至，待到月圓良宵，一切自然圓滿，不必急於求全，耐心等待。"},
+{n:84,title:"廉恥羞見江東父老",grade:"中下",poem:"因名喪德不和同\n切忌忙中變作凶\n醉後不知何處去\n青松影裡睡矇矓",interp:"為名喪德，忙中生禍。此籤警示不可因追求名利而喪失德行，忙亂中容易出差錯，保持清醒頭腦，切莫醉生夢死，迷失方向。"},
+{n:85,title:"范仲淹先憂後樂",grade:"上上",poem:"重開山後藏前事\n萬寶園中可再團\n醉詠新詩添逸興\n貴人引接上雲衢",interp:"重整山河，萬寶聚齊，貴人引路上雲途。此籤大吉，過去的困難已過，新的美好即將開展，貴人引領，前程璀璨，逸興豪情。"},
+{n:86,title:"衛青霍去病大破匈奴",grade:"上上",poem:"春來花發映陽臺\n萬里舟行進寶來\n躍過禹門三級浪\n恰如平地一聲雷",interp:"春花盛開，萬里進寶，一躍而過龍門。此籤大吉，如春雷平地一聲響，震驚四方，所求之事如破竹之勢，成功指日可待。"},
+{n:87,title:"班超投筆從戎",grade:"中下",poem:"人行半嶺日啣山\n峻險巉巖未可攀\n仰望上天垂護佑\n此身猶在太虛間",interp:"行至半山日已西沉，險峻岩壁難以攀登。此刻處境艱難，仰望上天護佑，雖身處危境，仍在天地間保全自身，靜待援手。"},
+{n:88,title:"白起長平坑殺趙卒",grade:"下",poem:"木雕一虎在山林\n遠望威容意不禁\n縱說不妨終可謂\n此身如入大江心",interp:"木雕老虎，外強中乾。此籤示警，表面威猛實則虛弱，此身如入大江之心，危險難料，提醒勿被表面聲勢所誤，謹慎評估真實情況。"},
+{n:89,title:"劉備借荊州",grade:"上上",poem:"出入營謀大吉昌\n無瑕玉在石中藏\n如今幸得高人指\n獲寶從心喜不常",interp:"出入謀事大吉大利，如無暇玉石中藏，幸得高人指引，獲寶稱心，喜悅難以言說。此籤大吉，有貴人相助，所求必得。"},
+{n:90,title:"曹操青梅煮酒論英雄",grade:"上上",poem:"忽朝一信天下墀\n寶貝船裝滿載歸\n若問前程成底事\n始終應得貴人提",interp:"忽得佳音，寶船滿載而歸。前程之事，始終有貴人相提攜。此籤大吉，貴人引路，所求之事終能圓滿成就，滿載而歸。"},
+{n:91,title:"管鮑之交",grade:"上上",poem:"好把愁眉須展開\n大才大用薦將來\n一條大路平如掌\n凡有施為總稱懷",interp:"舒展愁眉，大才將得大用。前路平坦如掌，凡事施為皆稱心如意。此籤大吉，才能得以發揮，一展長才，所求皆遂心懷。"},
+{n:92,title:"昭烈帝白帝城托孤",grade:"上上",poem:"經商得利稱心懷\n福祿榮華倍獲財\n若問進身謀望事\n秀才一舉狀元回",interp:"經商得利，福祿雙至。此籤大吉，求財者財源廣進，求功名者一舉高中狀元，凡有所求皆能圓滿達成，福祿榮華倍增。"},
+{n:93,title:"呂蒙白衣渡江",grade:"中平",poem:"鸞鳳翎毛雨壓垂\n此時應被雀輕欺\n忽朝一日雲霄霽\n依舊還教振羽衣",interp:"鸞鳳被雨壓羽，暫時被麻雀輕欺。此籤提示雖暫時受挫，一旦雲開日出，必能重振羽翼，展翅高飛，昔日榮光終將回來。"},
+{n:94,title:"嚴子陵垂釣富春江",grade:"中平",poem:"小人君子別賢愚\n事有差訛合是非\n琴遇知音當鼓操\n爭如定靜得便宜",interp:"分清小人君子，辨別賢愚。遇到知音方彈琴，此籤提示靜定為上，不與是非糾纏，辨明賢愚之後再行事，得定靜者佔便宜。"},
+{n:95,title:"龐涓孫臏鬥智",grade:"上上",poem:"事業功勳暮與朝\n榮華物態不勝饒\n報君記取金雞鬪\n福祿聲名價自超",interp:"事業功勳日漸豐盛，榮華富貴應有盡有。此籤大吉，把握時機如金雞報曉，福祿聲名自然超越他人，成就非凡事業。"},
+{n:96,title:"哪吒鬧海",grade:"上上",poem:"巍巍寶塔不尋常\n八面玲瓏盡放光\n勸汝志心勤頂禮\n天龍擁護降千祥",interp:"巍巍寶塔，八面生輝。此籤大吉，勸人誠心禮拜，天龍護佑，千祥雲集。以誠心修善積德，必得神明護佑，降下無量吉祥。"},
+{n:97,title:"孔明秋風五丈原",grade:"中下",poem:"園林月色搖疎影\n恍若鋪成滿地瓊\n幾度兒童來收拾\n豈知收拾總無成",interp:"月影如瓊，卻如水中月、鏡中花，難以把握。此籤提示所求之物猶如水月空花，難以真正掌握，徒費心力，需重新審視目標。"},
+{n:98,title:"廉頗老矣尚能飯否",grade:"中下",poem:"經商出入事遲疑\n恐惹閒愁與是非\n如鳥飛投羅網陷\n相看能有幾人知",interp:"此籤示警，行事遲疑容易惹是非，如鳥投羅網，陷入困境卻難有人知曉。此時需謹慎決策，避免因猶豫不決而遭受損失。"},
+{n:99,title:"韓信點兵多多益善",grade:"中平",poem:"等閑騎馬着鞭來\n半有憂危半有財\n似火方燒頭上屋\n天教一雨蕩殃災",interp:"半喜半憂，禍福參半。此籤提示雖有危難，天降甘霖蕩除災殃。困境中自有轉機，危急之時上天自有安排，化解危難帶來財運。"},
+{n:100,title:"觀音大士廣度眾生",grade:"下",poem:"欲就東兮欲就西\n逢人說事轉痴迷\n登山不見神仙面\n莫若歸休更勿提",interp:"此乃百籤之末，提示反思。東西猶豫，逢人說事，登山卻不見神仙。籤示此時不宜強求，不如歸休靜心，放下執念，自然通達。"},
+];
+
+const GC={
+  "上上":{bg:"#B8820A",c:"#FFF8D0"},
+  "大吉":{bg:"#B8820A",c:"#FFF8D0"},
+  "上吉":{bg:"#A07010",c:"#FFF8D0"},
+  "上":{bg:"#906010",c:"#FFF8D0"},
+  "上中":{bg:"#906010",c:"#FFF8D0"},
+  "上平":{bg:"#806010",c:"#FFF8D0"},
+  "中上":{bg:"#6A5010",c:"#FFF0C0"},
+  "中":{bg:"#604010",c:"#FFF0C0"},
+  "中中":{bg:"#604010",c:"#FFF0C0"},
+  "中平":{bg:"#583810",c:"#FFE8B0"},
+  "平":{bg:"#6B3A1F",c:"#FFE0A0"},
+  "平平":{bg:"#6B3A1F",c:"#FFE0A0"},
+  "平中":{bg:"#6B3A1F",c:"#FFE0A0"},
+  "下":{bg:"#8B1A1A",c:"#FFE0D0"},
+  "下下":{bg:"#6B0A0A",c:"#FFD0C0"},
+};
+
+const STEMS=["甲","乙","丙","丁","戊","己","庚","辛","壬","癸"];
+const BRANCHES=["子","丑","寅","卯","辰","巳","午","未","申","酉","戌","亥"];
+const MONTHS=["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"];
+
+function initDate(){
+  const d=new Date();
+  const base=new Date(2024,0,1);
+  const diff=Math.floor((d-base)/86400000);
+  const si=(diff+40)%10, bi=(diff+12)%12;
+  const mi=d.getMonth()%10, mbi=d.getMonth()%12;
+  document.getElementById('dateDisplay').textContent=
+    d.getFullYear()+"年 "+(d.getMonth()+1)+"月 "+d.getDate()+"日";
+  document.getElementById('gzDisplay').textContent=
+    STEMS[mi]+BRANCHES[mbi]+"月 "+STEMS[si]+BRANCHES[bi]+"日";
+}
+initDate();
+
+// 籤筒搖動動畫
+function shakeQianTong() {
+  const el = document.getElementById('qianTong');
+  if (!el) return;
+  const keyframes = [
+    {transform: 'rotate(0deg)'},
+    {transform: 'rotate(-12deg)'},
+    {transform: 'rotate(10deg)'},
+    {transform: 'rotate(-8deg)'},
+    {transform: 'rotate(6deg)'},
+    {transform: 'rotate(-4deg)'},
+    {transform: 'rotate(2deg)'},
+    {transform: 'rotate(0deg)'},
+  ];
+  el.animate(keyframes, {duration: 900, easing: 'ease-in-out'});
+}
+let shakeInterval = null;
+function startShaking() {
+  shakeQianTong();
+  shakeInterval = setInterval(shakeQianTong, 1200);
+}
+function stopShaking() {
+  if (shakeInterval) { clearInterval(shakeInterval); shakeInterval = null; }
+}
+
+let selIntent="";
+function pickIntent(el,v){
+  selIntent=v;
+  document.querySelectorAll('.intent-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// 搖籤粒子效果
+// 飛出籤動畫
+function flyStick(btn){
+  const rect=btn.getBoundingClientRect();
+  const s=document.createElement('div');
+  s.className='flying-stick';
+  s.style.left=(rect.left+rect.width/2-5)+'px';
+  s.style.top=(rect.top+40)+'px';
+  s.style.height='90px';
+  document.body.appendChild(s);
+  setTimeout(()=>s.remove(), 1000);
+}
+
+function drawWithShake(){
+  draw();
+}
+
+function draw(){
+  const btn=document.getElementById('shakeBtn');
+  if(btn.style.pointerEvents==='none') return;
+  btn.style.pointerEvents='none';
+
+  // 搖動籤筒
+  btn.classList.add('shaking');
+  flyStick(btn);
+
+  const rs2 = document.getElementById('resultScroll');
+  rs2.style.opacity='0';
+  setTimeout(()=>{
+    rs2.style.display='none';
+    rs2.style.opacity='';
+    // 重置紙張和桿子
+    const paper2 = document.getElementById('paperBody');
+    const rodT2  = document.getElementById('rodTop');
+    const rodB2  = document.getElementById('rodBottom');
+    if(paper2){ paper2.style.transition='none'; paper2.style.clipPath='inset(50% 0 50% 0)'; paper2.style.height='auto'; }
+    if(rodT2){ rodT2.style.transition='none'; rodT2.style.transform=''; }
+    if(rodB2){ rodB2.style.transition='none'; rodB2.style.transform=''; }
+  }, 300);
+  document.body.style.overflow='';
+  const lm=document.getElementById('loadingMsg'); lm.style.display='flex'; startShaking();
+
+  setTimeout(()=>{
+    btn.classList.remove('shaking');
+  }, 700);
+
+  setTimeout(()=>{
+    document.getElementById('loadingMsg').style.display='none'; stopShaking();
+
+    const o=ORACLES[Math.floor(Math.random()*ORACLES.length)];
+    const num=String(o.n).padStart(2,'0');
+
+    document.getElementById('rNum').textContent=num;
+    document.getElementById('rStory').textContent='【'+o.title+'】';
+    // 直排：把詩文按換行拆成多欄
+    const poemEl = document.getElementById('rPoem');
+    poemEl.innerHTML = '';
+    const lines = o.poem.split('\n').filter(l=>l.trim());
+    lines.forEach(line => {
+      const col = document.createElement('div');
+      col.style.cssText = 'writing-mode:vertical-rl;text-orientation:mixed;font-family:\'Noto Serif TC\',serif;font-size:22px;font-weight:700;color:#1A1A1A;line-height:1.9;letter-spacing:6px;';
+      col.textContent = line.trim();
+      poemEl.appendChild(col);
+    });
+    document.getElementById('rInterp').textContent=o.interp;
+
+    const g=GC[o.grade]||GC["中平"];
+    const gb=document.getElementById('rGrade');
+    gb.textContent=o.grade+'籤';
+    gb.style.color=g.bg;
+    gb.style.borderColor=g.bg;
+
+    const catTxt=selIntent?selIntent+' · 觀音靈籤':'觀音靈籤';
+    document.getElementById('rCat').textContent=catTxt;
+
+    const rs = document.getElementById('resultScroll');
+    document.body.style.overflow='hidden';
+    rs.style.display='flex';
+    rs.style.opacity='0';
+
+    const paper = document.getElementById('paperBody');
+    const rodT  = document.getElementById('rodTop');
+    const rodB  = document.getElementById('rodBottom');
+    const inner = document.getElementById('scrollInner');
+
+    // 讓紙張完整顯示但用 clip-path 遮住
+    paper.style.height = 'auto';
+    paper.style.overflow = 'visible';
+
+    // fade in overlay
+    rs.style.transition = 'opacity 0.3s';
+    requestAnimationFrame(()=>{ rs.style.opacity='1'; });
+
+    setTimeout(()=>{
+      // 取得紙張高度
+      const fullH = paper.offsetHeight;
+      const half  = Math.round(fullH / 2);
+
+      // 初始：桿子都在中間，紙張用 clip-path 全遮住（從中間往兩端裁）
+      rodT.style.transition = 'none';
+      rodB.style.transition = 'none';
+      rodT.style.transform  = 'translateY(' + half + 'px)';
+      rodB.style.transform  = 'translateY(-' + half + 'px)';
+      paper.style.clipPath  = 'inset(50% 0 50% 0)';
+      paper.style.transition = 'none';
+
+      requestAnimationFrame(()=>{
+        requestAnimationFrame(()=>{
+          // 同步：桿子往外移，clip-path 往外展開
+          const dur  = '2.0s';
+          const ease = 'cubic-bezier(0.4, 0, 0.2, 1)';
+          rodT.style.transition  = 'transform ' + dur + ' ' + ease;
+          rodB.style.transition  = 'transform ' + dur + ' ' + ease;
+          paper.style.transition = 'clip-path ' + dur + ' ' + ease;
+          rodT.style.transform   = 'translateY(0)';
+          rodB.style.transform   = 'translateY(0)';
+          paper.style.clipPath   = 'inset(0% 0 0% 0)';
+        });
+      });
+    }, 80);
+    btn.style.pointerEvents='auto';
+
+    setTimeout(()=>{
+      document.getElementById('resultScroll').scrollIntoView({behavior:'smooth', block:'start'});
+    }, 100);
+  }, 1800);
+}
+
+function reset(){
+  const rs2 = document.getElementById('resultScroll');
+  rs2.style.opacity='0';
+  setTimeout(()=>{
+    rs2.style.display='none';
+    rs2.style.opacity='';
+    // 重置紙張和桿子
+    const paper2 = document.getElementById('paperBody');
+    const rodT2  = document.getElementById('rodTop');
+    const rodB2  = document.getElementById('rodBottom');
+    if(paper2){ paper2.style.transition='none'; paper2.style.clipPath='inset(50% 0 50% 0)'; paper2.style.height='auto'; }
+    if(rodT2){ rodT2.style.transition='none'; rodT2.style.transform=''; }
+    if(rodB2){ rodB2.style.transition='none'; rodB2.style.transform=''; }
+  }, 300);
+  document.body.style.overflow='';
+  selIntent="";
+  document.querySelectorAll('.intent-btn').forEach(b=>b.classList.remove('active'));
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+</script>
+</body>
+</html>
