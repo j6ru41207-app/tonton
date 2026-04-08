@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>通通靈 · 觀音百首靈籤</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;700;900&family=Ma+Shan+Zheng&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'Noto Serif TC',serif;
+  background-color:#F5EDD6;
+  background-image:
+    repeating-linear-gradient(0deg,transparent,transparent 28px,rgba(180,140,20,0.05) 28px,rgba(180,140,20,0.05) 29px),
+    repeating-linear-gradient(90deg,transparent,transparent 28px,rgba(180,140,20,0.05) 28px,rgba(180,140,20,0.05) 29px),
+    radial-gradient(ellipse at 20% 20%,rgba(200,151,26,0.08) 0%,transparent 55%),
+    radial-gradient(ellipse at 80% 80%,rgba(200,151,26,0.07) 0%,transparent 55%);
+  min-height:100vh;
+  padding:28px 16px 48px;
+}
+.page-frame{
+  max-width:480px;
+  margin:0 auto;
+  border:2px solid rgba(180,140,20,0.45);
+  border-radius:18px;
+  padding:2px;
+  position:relative;
+}
+.page-frame::before{
+  content:'';
+  position:absolute;
+  inset:7px;
+  border:0.5px solid rgba(180,140,20,0.22);
+  border-radius:13px;
+  pointer-events:none;
+  z-index:0;
+}
+.inner{
+  background:rgba(249,242,215,0.72);
+  border-radius:16px;
+  overflow:hidden;
+  position:relative;
+  z-index:1;
+  backdrop-filter:blur(2px);
+}
+/* HEADER */
+.hdr{
+  background:#8B1A1A;
+  padding:22px 24px 18px;
+  text-align:center;
+  position:relative;
+  border-bottom:2px solid #C8971A;
+}
+.corner{position:absolute;width:22px;height:22px;border-color:#C8971A;border-style:solid;opacity:0.55;}
+.c-tl{top:9px;left:9px;border-width:1.5px 0 0 1.5px;}
+.c-tr{top:9px;right:9px;border-width:1.5px 1.5px 0 0;}
+.c-bl{bottom:9px;left:9px;border-width:0 0 1.5px 1.5px;}
+.c-br{bottom:9px;right:9px;border-width:0 1.5px 1.5px 0;}
+.logo-title{
+  font-family:'Ma Shan Zheng','Noto Serif TC',serif;
+  font-size:40px;
+  color:#E8B84B;
+  letter-spacing:10px;
+  text-shadow:0 0 24px rgba(232,184,75,0.35);
+  line-height:1.1;
+}
+.logo-diamond{
+  display:inline-block;
+  width:8px;height:8px;
+  background:#C8971A;
+  transform:rotate(45deg);
+  margin:6px auto 4px;
+  opacity:0.6;
+}
+.logo-sub{font-size:10px;color:rgba(232,184,75,0.5);letter-spacing:5px;}
+/* DATE BAR */
+.date-bar{
+  background:rgba(180,140,20,0.1);
+  border-bottom:0.5px solid rgba(180,140,20,0.22);
+  padding:8px 20px;
+  display:flex;align-items:center;justify-content:center;gap:14px;
+}
+.date-pill{font-size:11px;color:#7A5C00;letter-spacing:2px;}
+.dot{width:4px;height:4px;border-radius:50%;background:rgba(180,140,20,0.35);}
+/* BODY */
+.body{padding:20px 20px 24px;}
+.sec-head{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+.sec-line{flex:1;height:0.5px;background:rgba(180,140,20,0.3);}
+.sec-lbl{font-size:10px;color:#A07820;letter-spacing:4px;white-space:nowrap;}
+/* INTENT GRID */
+.i-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:16px;}
+.i-btn{
+  background:rgba(180,140,20,0.07);
+  border:0.5px solid rgba(180,140,20,0.28);
+  border-radius:7px;padding:9px 3px;
+  font-size:11px;font-family:'Noto Serif TC',serif;
+  color:#8B6914;cursor:pointer;text-align:center;
+  letter-spacing:0.5px;line-height:1.5;transition:all .18s;
+}
+.i-btn:hover,.i-btn.active{background:rgba(139,26,26,0.11);border-color:#8B1A1A;color:#8B1A1A;}
+/* TEXTAREA */
+.q-area{
+  width:100%;background:rgba(255,255,255,0.45);
+  border:0.5px solid rgba(180,140,20,0.3);border-radius:8px;
+  padding:11px 14px;font-size:13px;font-family:'Noto Serif TC',serif;
+  color:#3A2010;resize:none;height:60px;outline:none;
+  letter-spacing:1px;margin-bottom:18px;
+}
+.q-area::placeholder{color:rgba(120,90,20,0.38);}
+.q-area:focus{border-color:rgba(139,26,26,0.45);}
+/* RITUAL */
+.ritual{text-align:center;margin:4px 0 18px;}
+.incense-row{display:flex;justify-content:center;align-items:flex-end;gap:5px;height:56px;margin-bottom:14px;}
+.stick{width:3px;border-radius:2px;position:relative;}
+.s1{height:50px;background:linear-gradient(to bottom,#7A1010,#C8500A,#E8C88A);}
+.s2{height:44px;background:linear-gradient(to bottom,#7A1010,#C8500A,#E8C88A);margin-top:6px;}
+.s3{height:48px;background:linear-gradient(to bottom,#7A1010,#C8500A,#E8C88A);margin-top:2px;}
+.ember{position:absolute;top:-4px;left:-1.5px;width:6px;height:6px;border-radius:50%;background:#FF7700;box-shadow:0 0 6px #FF7700;animation:flk 1.4s infinite alternate;}
+@keyframes flk{0%{opacity:1;transform:scale(1);}100%{opacity:.45;transform:scale(.65);}}
+.smoke{position:absolute;top:-13px;left:1px;width:1px;height:11px;background:linear-gradient(to top,rgba(200,151,26,.28),transparent);animation:rise 2.2s infinite;}
+@keyframes rise{0%{opacity:.6;transform:translateY(0);}100%{opacity:0;transform:translateY(-10px);}}
+.shake-wrap{position:relative;display:inline-flex;align-items:center;justify-content:center;}
+.shake-wrap::before{content:'';position:absolute;inset:-7px;border-radius:50%;border:0.5px solid rgba(180,140,20,.22);}
+.shake-wrap::after{content:'';position:absolute;inset:-14px;border-radius:50%;border:0.5px solid rgba(180,140,20,.1);}
+.shake-btn{
+  width:90px;height:90px;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%,#B52020,#8B1A1A);
+  border:1.5px solid #C8971A;color:#F5E0A0;
+  font-size:13px;font-family:'Noto Serif TC',serif;
+  cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:2px;letter-spacing:3px;
+  box-shadow:0 4px 18px rgba(139,26,26,.38),inset 0 1px 0 rgba(255,255,255,.1);
+  transition:all .2s;position:relative;z-index:1;
+}
+.shake-btn:hover{transform:scale(1.04);box-shadow:0 6px 24px rgba(139,26,26,.48);}
+.shake-btn:active{transform:scale(.97);}
+.shake-btn:disabled{opacity:.7;cursor:default;transform:none;}
+@keyframes shake{0%,100%{transform:rotate(0);}10%{transform:rotate(-10deg);}20%{transform:rotate(10deg);}30%{transform:rotate(-7deg);}40%{transform:rotate(7deg);}50%{transform:rotate(-4deg);}60%{transform:rotate(4deg);}}
+.shaking{animation:shake .65s ease-in-out;}
+.ritual-hint{font-size:10px;color:rgba(120,80,20,.45);letter-spacing:3px;margin-top:10px;}
+/* LOADING */
+.loading{text-align:center;padding:18px 0;font-size:12px;color:#A07820;letter-spacing:3px;display:none;}
+.loading.show{display:block;}
+@keyframes blink{0%,100%{opacity:.25;}50%{opacity:1;}}
+.loading span{animation:blink 1.5s infinite;}
+/* RESULT CARD */
+.rc{display:none;background:linear-gradient(155deg,rgba(255,255,255,.6),rgba(249,240,210,.82));border:1px solid rgba(180,140,20,.4);border-radius:12px;overflow:hidden;animation:revl .42s ease-out;}
+.rc.show{display:block;}
+@keyframes revl{from{opacity:0;transform:translateY(10px) scale(.98);}to{opacity:1;transform:translateY(0) scale(1);}}
+.rc-hdr{background:#8B1A1A;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1.5px solid #C8971A;}
+.rc-hdr-left{display:flex;flex-direction:column;gap:3px;}
+.rc-hdr-right{opacity:0.9;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.rc-num-label{font-size:11px;color:rgba(232,184,75,.7);letter-spacing:4px;margin-bottom:3px;}
+.grade-badge{font-size:13px;padding:4px 14px;border-radius:20px;letter-spacing:2px;font-weight:500;display:inline-block;}
+.rc-cat-label{font-size:10px;color:rgba(232,184,75,.48);letter-spacing:3px;margin-top:3px;}
+.trad-poem-label,.interp-label{font-size:9px;color:#A07820;letter-spacing:4px;margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+.trad-poem-label::before,.trad-poem-label::after,.interp-label::before,.interp-label::after{content:'';flex:1;height:0.5px;background:rgba(180,140,20,.3);}
+.trad-poem-box{background:rgba(139,26,26,.06);border-left:2.5px solid #B22222;border-radius:0 7px 7px 0;padding:14px 16px;margin-bottom:14px;font-size:15px;line-height:2.2;color:#8B1A1A;font-weight:500;letter-spacing:3px;white-space:pre-line;text-align:center;}
+.interp-label{margin-top:4px;}
+.rc-body{padding:16px 18px 18px;}
+.interp{font-size:12.5px;line-height:2;color:#3A2010;margin-bottom:14px;letter-spacing:.5px;}
+.story-label{font-size:9px;color:#A07820;letter-spacing:4px;margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+.story-label::before,.story-label::after{content:'';flex:1;height:0.5px;background:rgba(180,140,20,.3);}
+.story-box{font-size:11px;color:#7A5020;letter-spacing:2px;text-align:center;padding:8px 0 14px;border-bottom:0.5px solid rgba(139,26,26,.12);margin-bottom:14px;}
+.again-btn{
+  width:100%;background:transparent;
+  border:0.5px solid rgba(139,26,26,.32);border-radius:7px;
+  padding:10px;color:#A04040;font-size:11px;
+  font-family:'Noto Serif TC',serif;cursor:pointer;
+  letter-spacing:4px;transition:all .18s;
+}
+.again-btn:hover{background:rgba(139,26,26,.07);border-color:#8B1A1A;}
+/* 觀音靈籤裝飾圖 */
+.guanyin-badge{
+  width:48px;height:48px;
+  border:1px solid rgba(200,151,26,0.6);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+  background:radial-gradient(circle,rgba(200,151,26,0.15),transparent);
+}
+.guanyin-badge::before{
+  content:'';
+  position:absolute;
+  inset:3px;
+  border:0.5px solid rgba(200,151,26,0.3);
+  border-radius:50%;
+}
+.guanyin-badge .badge-num{
+  font-family:'Ma Shan Zheng',serif;
+  font-size:18px;
+  color:#E8B84B;
+  line-height:1;
+}
+/* FOOTER */
+.footer{text-align:center;padding:14px 20px;border-top:0.5px solid rgba(180,140,20,.18);}
+.footer-txt{font-size:9px;color:rgba(120,80,20,.32);letter-spacing:4px;}
+</style>
+</head>
+<body>
+<div class="page-frame">
+<div class="inner">
+
+  <div class="hdr">
+    <div class="corner c-tl"></div><div class="corner c-tr"></div>
+    <div class="corner c-bl"></div><div class="corner c-br"></div>
+    <div class="logo-title">通通靈</div>
+    <div class="logo-diamond"></div>
+    <div class="logo-sub">TONG TONG LING · 觀音百首靈籤</div>
+  </div>
+
+  <div class="date-bar">
+    <div class="date-pill" id="dateDisplay">讀取中...</div>
+    <div class="dot"></div>
+    <div class="date-pill" id="gzDisplay">—</div>
+  </div>
+
+  <div class="body">
+
+    <div class="sec-head"><div class="sec-line"></div><div class="sec-lbl">所問之事</div><div class="sec-line"></div></div>
+    <div class="i-grid">
+      <button class="i-btn" onclick="pickIntent(this,'運勢')">整體<br>運勢</button>
+      <button class="i-btn" onclick="pickIntent(this,'求財')">求財<br>事業</button>
+      <button class="i-btn" onclick="pickIntent(this,'感情')">感情<br>姻緣</button>
+      <button class="i-btn" onclick="pickIntent(this,'健康')">身心<br>健康</button>
+      <button class="i-btn" onclick="pickIntent(this,'考試')">考試<br>文書</button>
+      <button class="i-btn" onclick="pickIntent(this,'工作')">工作<br>職場</button>
+      <button class="i-btn" onclick="pickIntent(this,'創業')">創業<br>規劃</button>
+      <button class="i-btn" onclick="pickIntent(this,'出行')">出行<br>旅途</button>
+    </div>
+
+    <textarea class="q-area" id="qText" placeholder="默想問題⋯⋯誠心求籤，觀音娘娘自有指引"></textarea>
+
+    <div class="sec-head"><div class="sec-line"></div><div class="sec-lbl">誠心求籤</div><div class="sec-line"></div></div>
+    <div class="ritual">
+      <div class="incense-row">
+        <div class="stick s1"><div class="ember"></div><div class="smoke"></div></div>
+        <div class="stick s2"><div class="ember" style="animation-delay:.5s"></div><div class="smoke" style="animation-delay:.4s"></div></div>
+        <div class="stick s3"><div class="ember" style="animation-delay:.9s"></div><div class="smoke" style="animation-delay:.8s"></div></div>
+      </div>
+      <div class="shake-wrap">
+        <button class="shake-btn" id="shakeBtn" onclick="draw()">
+          <span style="font-size:22px">🎋</span>
+          <span>求　籤</span>
+        </button>
+      </div>
+      <div class="ritual-hint">心誠則靈 · 一事一籤</div>
+    </div>
+
+    <div class="loading" id="loadingMsg"><span>觀音娘娘降旨中⋯</span></div>
+
+    <div class="rc" id="rc">
+      <div class="rc-hdr">
+        <div class="rc-hdr-left">
+          <div class="rc-num-label" id="rNum">第 X 籤</div>
+          <div class="grade-badge" id="rGrade">上上籤</div>
+          <div class="rc-cat-label" id="rCat">【問事類別】</div>
+        </div>
+        <div class="rc-hdr-right">
+          <div class="guanyin-badge">
+            <span class="badge-num" id="rBadgeNum">1</span>
+          </div>
+        </div>
+      </div>
+      <div class="rc-body">
+        <div class="story-label">典　故</div>
+        <div class="story-box" id="rStory">故事名稱</div>
+        <div class="trad-poem-label">籤　詩</div>
+        <div class="trad-poem-box" id="rTradPoem"></div>
+        <div class="interp-label">解　曰</div>
+        <div class="interp" id="rInterp"></div>
+        <button class="again-btn" onclick="reset()">再問一籤</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer"><div class="footer-txt">◈ 通通靈 · 道法自然 · 信者有福 ◈</div></div>
+
+</div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════
+// 觀音百首靈籤 資料庫
+// 詩文來源：北海觀音聖籤（第1-42首為原始文本）
+// ═══════════════════════════════════════════════
+const ORACLES=[
+{n:1,title:"宋太祖黃袍加身",grade:"上上",poem:"開天闢地作良緣\n吉日良時萬物全\n若得此籤非小可\n人行忠正帝王宣",interp:"此籤為百籤之首，上上大吉。天時地利人和俱備，所求之事如帝王登基，正當其時。行事光明磊落，忠正誠信，必得上天眷顧，事事圓滿。"},
+{n:2,title:"姜太公渭水垂釣",grade:"中",poem:"鯨魚未變守江河\n不可昇騰更望高\n異日崢嶸身變化\n許君一躍跳龍門",interp:"此刻時機未到，宜如姜太公般守候待時，不可急躁躁進。耐心蟄伏，等待貴人出現，時機一到必然一躍成名，魚躍龍門前程可期。"},
+{n:3,title:"燕將獨守聊城",grade:"下",poem:"臨風冒雨去還鄉\n正是其身似燕兒\n啣得坭來欲作壘\n到頭壘壞復須坭",interp:"此籤象徵辛苦而成效不彰，如燕子銜泥築巢，壘成又壞，反覆無功。當前努力難見成果，建議暫緩行動，重新審視方向，避免白費心力。"},
+{n:4,title:"長樂老歷相五代",grade:"中上",poem:"千年古鏡復重圓\n女再求夫男再婚\n自此門庭重改換\n更添福祿在兒孫",interp:"否極泰來，破鏡重圓之象。家門將有重大轉機，感情或婚姻方面有重新開始的機緣。此後家運轉盛，福祿延及子孫，是新生的好兆頭。"},
+{n:5,title:"燕昭王為郭隗築黃金臺",grade:"中平",poem:"一錐草地要求泉\n努力求之得最難\n無意俄然遇知己\n相逢攜手上青天",interp:"刻意強求往往事倍功半，反而在無意間遇到真正的知音貴人。此籤提示放下執念，以誠心待人，貴人自然相聚，攜手共創前程。"},
+{n:6,title:"藺相如完璧歸趙",grade:"中平",poem:"投身巖下鵰鳥居\n須是還他大丈夫\n及早營謀誰可得\n通行天地此人無",interp:"需要智勇兼備才能化解當前困境。如藺相如完璧歸趙，以膽識與謀略應對，及早籌謀布局，方能全身而退，無往不利。"},
+{n:7,title:"廉將軍思用趙人",grade:"中平",poem:"奔波阻隔重重險\n帶水拖坭去度山\n更望他鄉求用事\n千鄉萬里未回還",interp:"此刻奔波勞碌，阻礙重重，有志難伸之感。在外求發展困難重重，不如守本待時。異鄉漂泊難有所成，靜待機緣，返璞歸真方為上策。"},
+{n:8,title:"範文公斷虀畫粥",grade:"上",poem:"茂林松柏正興旺\n雨雪風霜總莫為\n異日忽然成大用\n功名成就棟樑材",interp:"如松柏挺立，歷經風雪依然茁壯。眼前雖有磨礪，正是蓄積能量之時，終有一日大放異彩，成為棟樑之才，功名就在前方。"},
+{n:9,title:"趙韓王半部論語定天下",grade:"上上",poem:"煩君勿作私心事\n此意偏宜說問公\n一片明心光皎潔\n宛如皎月正天中",interp:"心存公正，不謀私利，光明磊落如皓月當空。此籤提示凡事以公心處之，心無雜念則自然清明，所求之事自然通達，貴人相助。"},
+{n:10,title:"秦昭王連城求趙璧",grade:"中平",poem:"石藏無價玉和珍\n只管他鄉外客尋\n宛如持燈更覓火\n不如收拾枉勞心",interp:"寶物就在身邊，卻捨近求遠，如持燈找火，徒勞無功。此刻不必向外尋求，回頭審視自身已有的資源，善加利用，方為明智。"},
+{n:11,title:"劉先生入贅東吳",grade:"上上",poem:"欲求勝事可非常\n爭奈親姻日暫忙\n到頭竟必成中箭\n貴人指引貴人鄉",interp:"有貴人在前方等候指引，雖然眼前事務繁忙，親情姻緣之事也有波動，但最終必有貴人相助，引領前往更好的境地。"},
+{n:12,title:"包胥九頓泣秦庭",grade:"上上",poem:"否去泰來咫尺間\n暫交君子出於山\n若逢虎兔佳音信\n立志忙中事即閑",interp:"否極泰來，好消息即將到來。在忙碌紛亂中保持意志力，與君子交往共事，在特定時機將有佳音，忙碌之後自然迎來安定。"},
+{n:13,title:"信陵君存趙辭封",grade:"上上",poem:"自小生在富貴家\n眼前萬物總奢華\n蒙君賜紫金腰帶\n四海聲名定可誇",interp:"出身優越，貴氣天成，此刻更得上位者賞識賜福。名聲將廣傳四海，榮耀加身，貴人賜予機遇，把握此刻盡情展現才華。"},
+{n:14,title:"管仲三熏三沐見齊桓",grade:"大吉",poem:"宛如仙鶴出凡籠\n脫得凡籠路路通\n南北東西無阻隔\n任君直上九霄宮",interp:"大吉之籤，如仙鶴脫籠，自此海闊天空，無拘無束。束縛解除，前途豁然開朗，四方皆通，任意翱翔，直衝雲霄，前程無可限量。"},
+{n:15,title:"商君不聽趙良言",grade:"下",poem:"行人跘曰氣難吞\n忽有災事勿近前\n巢破林鳥無所宿\n可尋深處穩安身",interp:"此籤示警，有意外災禍之象。如商鞅不聽忠言終遭禍患，此時切勿逞強，遠離是非之地，低調退守，尋一穩妥之處安身保命。"},
+{n:16,title:"明神宗要活海瑞",grade:"中上",poem:"愁眉思慮暫時開\n啟出雲霄喜自來\n宛如糞土中藏玉\n良工薦舉出塵埃",interp:"原本被埋沒的才能，即將被伯樂發現。困境逐漸解開，喜訊將至，如玉石埋於泥土終被良工慧眼識出，一朝出頭，光彩照人。"},
+{n:17,title:"李斯遺藥殺韓非",grade:"中",poem:"莫聽閑言說是非\n晨昏只好念阿彌\n若將狂話為真實\n書餅如何止得饑",interp:"此時謠言是非四起，切莫輕信閒話。保持心中正念，以平靜之心應對流言，不要被虛假言論迷惑而做出錯誤判斷，免招禍端。"},
+{n:18,title:"鬼谷子演課",grade:"上上",poem:"金烏西墜兔東昇\n日夜循環至古今\n僧道得知無不利\n士農工商各從心",interp:"天道循環，自有定數。無論從事何種行業，此時皆得天時，各安其位各盡其職，順天應人則萬事皆宜，所求之事自然水到渠成。"},
+{n:19,title:"楊雄仕新為莽大夫",grade:"中",poem:"急水灘頭放船歸\n風波作波欲何為\n若要安然求穩靜\n等待浪靜過此危",interp:"如行船於急流險灘，此時局勢動盪，波濤洶湧。切勿強行前進，靜待風浪平息，危機自然化解，安然渡過眼前難關。"},
+{n:20,title:"蘇武援官典屬國",grade:"上上",poem:"當春久雨喜開晴\n玉兔金烏漸漸明\n舊事消散新事遂\n看看一跳遇龍門",interp:"久雨初晴，陰霾盡散，一切轉好。舊有的困境與煩惱逐漸消散，新的機緣即將到來，好比魚躍龍門，時機已至，把握此刻飛躍。"},
+{n:21,title:"邵康節定陰陽",grade:"上吉",poem:"陰陽道合總由天\n女嫁男婚喜偎然\n但見龍蛇相會合\n熊羆入夢樂團圓",interp:"此籤主婚姻喜慶，天定良緣，陰陽相合。求婚姻者大吉，有情人終成眷屬，夢中吉兆預示家庭圓滿，喜事將臨，合家歡樂。"},
+{n:22,title:"王孝先為民祈禱",grade:"上吉",poem:"旱時田裏皆枯槁\n謝天甘雨落淋淋\n花果草木皆潤澤\n始知一雨值千金",interp:"久旱逢甘霖，渴望已久的事情終於得到回應。如天降及時雨，滋潤萬物，此刻的助力或轉機正是千金難求之物，倍加珍惜把握。"},
+{n:23,title:"孫策以璽借袁兵",grade:"上平",poem:"欲扳仙桂入蟾宮\n普開天門不任君\n忽遇一般音信好\n人人皆笑嶺頂花",interp:"有好消息即將傳來，令眾人欣喜。雖然眼前目標暫時不在掌握之中，但忽然而至的佳音將帶來新的轉機，眾人皆見你的光彩。"},
+{n:24,title:"文種不聽范少伯",grade:"下",poem:"不成理論不成家\n水性癡人似落花\n若問君恩須得力\n到頭方見事如麻",interp:"此籤示警，如文種不聽范蠡之言終遭禍患。感情或事業皆顯散漫，缺乏根基，到頭來麻煩纏身。宜聽取善意忠言，及早調整方向。"},
+{n:25,title:"伍子胥過昭關",grade:"上中",poem:"過了憂危事幾重\n從今再立永無空\n寬心自有寬心計\n得遇高人立大功",interp:"歷經重重險阻之後，危機已過，否極泰來。此後重新建立根基，將有高人相助，共立大功。放寬心懷，自有化解之道，前途光明。"},
+{n:26,title:"桓溫得殷浩書",grade:"平",poem:"上下傳來事轉虛\n天邊接得一封書\n書中許我功名遂\n直到終時亦是虛",interp:"此籤提示言過其實，所傳來的消息或承諾恐難兌現。功名利祿看似近在眼前，實則虛幻，不宜輕信空口承諾，謹慎評估再行動。"},
+{n:27,title:"李鄴侯白衣宰相",grade:"中中",poem:"一謀一用一番書\n慮後思前不敢為\n時到貴人相助力\n如山牆立可安居",interp:"此時宜謹慎思量，三思而後行。雖然暫時裹足不前，但貴人自會在適當時機出現相助，屆時根基穩固如山，安居樂業可期。"},
+{n:28,title:"孟嘗君雞鳴度關",grade:"上上",poem:"東邊月上正蟬娟\n頃刻雲遮亦暗存\n或有圓時還有缺\n更言非者亦閑言",interp:"月有陰晴圓缺，世事本無常。目前雖有雲遮月暗之象，但月終有圓時，眼前的困難是暫時的，旁人閒言閒語不必在意，靜待轉機。"},
+{n:29,title:"百里奚食牛入相",grade:"大吉",poem:"寶劍出匣耀光明\n在匣全然不惹塵\n今得貴人攜出現\n有威有勢眾人欽",interp:"大吉！如百里奚出仕秦穆公，懷才終於遇伯樂。久藏之才此刻大放光芒，得貴人賞識提攜，威名遠播，眾人欽佩，前途無量。"},
+{n:30,title:"楚懷主入秦武關",grade:"中中",poem:"勸君切莫向他求\n似鶴飛來暗箭投\n若去採薪蛇在草\n恐遭毒口也憂愁",interp:"此籤示警，如楚懷王輕信秦國陷入圈套。提防小人暗算，輕易求助他人恐有被算計之危，謹慎行事，避開潛藏的危險。"},
+{n:31,title:"達摩面壁",grade:"中中",poem:"清閑無憂靜處儈\n飽後喫茶時坐臥\n汝下身心不用忙\n必定不招冤與禍",interp:"如達摩面壁禪定，此時最宜靜心修身。不必東奔西跑費心勞力，守靜處閒反而能避開是非禍患，心平氣和萬事自然安泰。"},
+{n:32,title:"常何薦馬周",grade:"中中",poem:"渺渺前途事可疑\n石中藏玉有誰知\n一朝良匠分明剖\n始覺其中碧玉奇",interp:"才能如玉藏石中，暫時不被人知。前途雖看似渺茫，但真才實學終會被識才之人發現，一旦遇到慧眼識英雄之人，必然大放光彩。"},
+{n:33,title:"鮑叔進管仲",grade:"中中",poem:"內藏無價寶和珍\n得玉何須外界尋\n不如等待高人識\n寬心猶且更寬心",interp:"寶藏就在自身，無需外求。自身的能力與價值早已具足，只需耐心等待識才的高人，不必急於表現或向外尋求，寬心靜待自然水到渠成。"},
+{n:34,title:"文中子上太平策",grade:"上上",poem:"行藏出入禮義恭\n言必忠良信必從\n心不了然且靜澈\n光明紅日正當中",interp:"以禮義忠信為本，言行一致，心地純潔光明。此刻如日正中天，行事磊落坦蕩，必得上天賜福，光明正大，諸事皆宜。"},
+{n:35,title:"劉關張古城相會",grade:"上上",poem:"衣冠重整舊家風\n道是無穹卻有功\n掃卻當途荊棘刺\n三人約議再和同",interp:"失散後重聚，重整旗鼓之象。掃清前路障礙，志同道合之人再度攜手，共謀大計，家業重振，義氣相聚必能成就大事。"},
+{n:36,title:"劉先主進葭朋關",grade:"上上",poem:"眼前病訟不須憂\n寶地資財盡可求\n恰似猿猴金鎖脫\n自歸山洞去來悠",interp:"如猿猴脫去金鎖，自由自在。眼前的病痛、官司或煩惱皆可化解，財運亨通，資源豐足，一切束縛解除，前途自由開闊。"},
+{n:37,title:"管公明避隱遼東",grade:"平平",poem:"欲待身安動泰時\n風中燈燭不相宜\n不如收拾深堂坐\n庶免光搖靜處明",interp:"此時如風中燈燭，局勢不穩，不宜輕舉妄動。退回安靜處等待時機，守靜避風，待局勢穩定再出手，靜中自有明智之道。"},
+{n:38,title:"淮陰侯背楚歸漢",grade:"中平",poem:"月照天宅靜處期\n忽遭雲霧又昏迷\n寬心祈信雲霞散\n此時更改好施為",interp:"月光明亮卻忽被雲霧遮蔽，事情突生變數。保持寬心信念，雲霧終將散去，此時可趁機調整方向，重新部署，轉機即將到來。"},
+{n:39,title:"曹操遣禰衡投黃祖",grade:"中平",poem:"天邊消息實難思\n切莫多心望強求\n若把石頭磨作鏡\n曾知枉費己功夫",interp:"有些事情強求不來，如以石頭磨鏡終屬徒勞。不必費心猜測遠方消息，也不必強求難以實現的目標，順其自然方為上策。"},
+{n:40,title:"馬援女為皇后",grade:"平中",poem:"紅輪西墜兔東昇\n陰長陽消百事亨\n是若女人宜望用\n增添財祿福其心",interp:"陰陽轉換，時勢變化，女性運勢特別旺盛。此籤對女性求事尤為吉利，財祿增添，心想事成。男性也可借助女性貴人之力成事。"},
+{n:41,title:"董卓郿塢藏金",grade:"平中",poem:"無限好言君記取\n卻為認賊將作子\n莫貪眼下有些甜\n更慮他年前樣看",interp:"如董卓藏金終難逃一劫，警示勿因貪眼前小利而誤大事。花言巧語背後可能藏有陷阱，看清真偽，莫讓一時甜頭蒙蔽判斷。"},
+{n:42,title:"溫公入相除新法",grade:"上",poem:"君皇聖後終為恩\n復待祈禳無損增\n一切有情皆受用\n人間天上得期亨",interp:"上得天恩，下得民心，諸事皆得圓滿。祈求之事蒙神明庇佑，無有損耗只有增益，有情眾生皆受其福，人間天上同享亨通。"},
+{n:43,title:"韓信受辱胯下",grade:"中平",poem:"忍辱含垢有奇謀\n胯下受辱志未休\n他年必有翻身日\n英雄本色待時酬",interp:"如韓信忍辱胯下，此乃蓄志待時之象。眼前縱有委屈，忍耐是智慧，英雄氣概不因一時挫折而消磨，他日必有揚眉吐氣之時。"},
+{n:44,title:"孫臏下山報仇",grade:"上上",poem:"蟄伏已久出山時\n滿腹韜略待施展\n龍騰四海皆歡慶\n正是男兒得志時",interp:"蟄伏已久，此時正是出山大展身手的最佳時機。一身才學得以施展，如龍入大海，四方歡慶，功名事業皆在此一舉。"},
+{n:45,title:"鐵拐李學道成仙",grade:"中",poem:"求道之心存正念\n莫因外相起迷茫\n修得真功成正果\n超凡境界自然彰",interp:"追求目標需保持正念，不被表象迷惑。腳踏實地修煉真功夫，勿走捷徑，只要方向正確，功到自然成，最終必能超凡入聖。"},
+{n:46,title:"呂洞賓三醉嶽陽樓",grade:"中上",poem:"三醉樓台意未消\n胸中丘壑任逍遙\n凡塵名利皆如夢\n得遇良機莫輕拋",interp:"心境豁達逍遙，能看破名利浮雲。雖然一切如夢幻泡影，但在清醒之間仍需把握眼前良機，瀟灑之中不失智慧，方為完人。"},
+{n:47,title:"范蠡功成泛舟五湖",grade:"下",poem:"功成名就早回頭\n五湖煙水任悠遊\n莫戀富貴生禍患\n急流勇退是良謀",interp:"如范蠡功成身退，此籤警示見好就收。眼前雖有繁華，若過度貪戀反生禍患，當知進退之道，適時抽身，方能保全長久福祉。"},
+{n:48,title:"諸葛亮火燒博望坡",grade:"上",poem:"運籌帷幄定乾坤\n奇謀妙算勝萬軍\n知己知彼無不勝\n此去前程大有成",interp:"謀略深遠，知己知彼，百戰百勝。此時以智取勝優於以力強攻，善用謀略把握天時地利，此去必然旗開得勝，大有所成。"},
+{n:49,title:"蘇秦合縱佩六印",grade:"中平",poem:"縱橫捭闔展才能\n一朝得志佩六印\n富貴榮華雖一時\n守正方能得長久",interp:"才能縱橫，一時大放光彩。但需記取守正之道，僅靠口才謀略而無根基，繁華難以長久，以正道輔佐才能使成就真正穩固。"},
+{n:50,title:"張儀連橫散六國",grade:"中",poem:"三寸舌根勝百萬\n縱橫天下憑口才\n雖得一時顯赫勢\n謹防禍從口中來",interp:"口才出眾，能言善道，可說服他人。但此籤警示言多必失，縱橫之術雖一時得勢，長期仍需以誠信為本，謹防因言語引起禍端。"},
+{n:51,title:"王昭君出塞和番",grade:"上上",poem:"犧牲小我成大義\n和平使者越關山\n一身擔起千秋業\n芳名萬古留人間",interp:"捨己為人，成就大義，千古留名。此刻或需做出犧牲奉獻，但此舉將成就更大的意義，名聲與功德長存，上天必有厚報。"},
+{n:52,title:"西施浣紗",grade:"中上",poem:"天生麗質難自棄\n浣紗溪畔待良緣\n佳人自有佳人緣\n一朝際遇展芳華",interp:"自身具備出眾才德，命中自有良緣際遇。不必刻意強求，佳人自有佳人的緣分，靜待時機，一旦際遇到來，必能大放異彩。"},
+{n:53,title:"楊貴妃醉酒",grade:"中",poem:"富貴榮華似春夢\n一朝失勢萬事空\n莫沉酒色誤前程\n人生得意要從容",interp:"繁華如夢，不可沉溺其中。此籤警示不要過度沉湎於享樂或感情之中，保持清醒理智，從容應對，莫讓一時的迷醉誤了前程。"},
+{n:54,title:"項羽烏江自刎",grade:"下",poem:"英雄末路最堪憐\n剛愎自用損河山\n四面楚歌無退路\n聽言納諫方可全",interp:"此籤大警示，剛愎自用將導致失敗。眼前局勢艱難，如四面楚歌，切勿一意孤行，廣聽善言，放下驕傲，轉而求謀，方有轉機。"},
+{n:55,title:"張良橋上拾履",grade:"上",poem:"謙遜待人得奇遇\n天書一卷入懷來\n運籌帷幄千里外\n留侯功業震天台",interp:"以謙遜之心待人，自有奇遇天降。如張良橋頭拾履得授兵法，機遇往往來自意想不到之處，謙德是吸引貴人與好運的根本。"},
+{n:56,title:"曹植七步成詩",grade:"中平",poem:"才高八斗難自保\n煮豆燃萁骨肉傷\n縱有文才驚天地\n謹慎處世保平安",interp:"才華洋溢但身處險境，需格外謹慎。骨肉之情或人際關係暗藏緊張，此時即便才能出眾，也需低調行事，保全自身為先。"},
+{n:57,title:"陶淵明採菊東籬",grade:"上上",poem:"採菊東籬見南山\n不為五斗折腰間\n清風明月是仙境\n自在逍遙勝萬千",interp:"超然物外，隨心自在，此為高人境界。眼前或許有功名利祿的誘惑，但守住自己的本心初衷，自由自在的人生才是真正的富足。"},
+{n:58,title:"李白醉酒望月",grade:"中",poem:"舉杯邀月共徜徉\n才情縱橫四海揚\n浮名富貴莫強求\n瀟灑人生自芬芳",interp:"才情高遠，不拘小節。此刻不宜過分追逐名利，以瀟灑之心處世，讓才情自然流露，反而能吸引真正的賞識，名聲自然遠播。"},
+{n:59,title:"杜甫憂國憂民",grade:"中上",poem:"憂國憂民詩聖心\n雖居貧困志不移\n千古文章照汗青\n大愛無私德日深",interp:"心懷大愛，不計個人得失。即便身處困境，保持初心與理想，以長遠眼光行事，功德自然積累，最終留名千古，不朽於世。"},
+{n:60,title:"白居易同是天涯淪落人",grade:"平",poem:"江州司馬青衫濕\n同是天涯淪落人\n他鄉遇知心暖慰\n共渡難關情義真",interp:"身處逆境，卻得知心之人相伴。雖然處境不如意，但遇到真正理解自己的人，同甘共苦的情誼彌足珍貴，共渡難關必有轉機。"},
+{n:61,title:"岳飛精忠報國",grade:"上上",poem:"精忠報國志如山\n肝腦塗地亦無憾\n縱被奸臣陷風波\n千秋英名照人間",interp:"忠義之心，堅不可摧。所行之事無愧於心，縱然遭受阻撓打壓，只要持守正道，千秋功名自有公論，上天必為忠良作主。"},
+{n:62,title:"文天祥正氣歌",grade:"中",poem:"正氣凜然貫長虹\n寧死不屈顯英雄\n丹心一片昭日月\n留取清名在人間",interp:"此籤主氣節與正直。雖面臨艱難抉擇，守住做人的正氣與底線，寧可承受損失也不可喪失原則，清名千古比一時得失更為珍貴。"},
+{n:63,title:"王昭君琵琶出塞",grade:"中平",poem:"琵琶一曲出長城\n萬里黃沙路不平\n身在異鄉心繫舊\n平和處世自然通",interp:"雖身不由己或身處異地，以平和心態應對，不強求環境改變，隨遇而安，內心保持對美好的嚮往，自然能在任何處境中安頓自身。"},
+{n:64,title:"花木蘭替父從軍",grade:"上",poem:"巾幗英雄志不凡\n替父從軍越關山\n十年征戰功名就\n女兒本色還家還",interp:"勇於承擔，捨身為大義，此乃英雄本色。眼前雖有艱難使命，全力以赴完成之後，功名加身，回歸本真，一切皆得圓滿。"},
+{n:65,title:"孟母三遷擇鄰",grade:"中上",poem:"慈母用心擇良境\n三遷擇鄰為子情\n環境薰陶成大器\n知恩圖報孝為先",interp:"環境對人影響深遠，宜選擇良好的環境與人際圈。此刻或需調整所處環境或交友圈，知道自己需要什麼樣的氛圍，自然成就大器。"},
+{n:66,title:"鑿壁偷光苦讀",grade:"中",poem:"貧寒之士志向堅\n鑿壁借光苦讀年\n勤奮刻苦終有成\n寒門出貴天有緣",interp:"環境雖然不佳，但意志堅定便無所畏懼。此時需要加倍勤奮努力，不抱怨條件限制，用比旁人更多的心力去彌補，功成自有天意。"},
+{n:67,title:"蘇秦懸梁刺股",grade:"上上",poem:"發憤苦讀志如鐵\n懸梁刺股不知眠\n十年寒窗無人問\n一舉成名天下知",interp:"堅定的意志加上持續的努力，必能成大器。此籤鼓勵發奮圖強，不懼辛苦，十年寒窗終有出頭日，金榜題名只是時間問題。"},
+{n:68,title:"車胤囊螢映雪",grade:"平",poem:"家貧無燈映螢光\n囊螢映雪志更強\n勤學苦讀終有成\n寒門亦出鳳凰郎",interp:"物質條件有限，但精神意志更為重要。借助一切可用的資源努力向前，貧困之境反而能磨礪出更堅韌的心志，終能出人頭地。"},
+{n:69,title:"越王臥薪嘗膽",grade:"中上",poem:"臥薪嘗膽志復仇\n忍辱負重待天時\n三千越甲終吞吳\n苦盡甘來樂無窮",interp:"如越王勾踐忍辱負重，此乃蓄力等待之籤。眼前需忍耐委屈，但心志絕不可動搖，時機成熟一舉反攻，苦盡甘來必然到來。"},
+{n:70,title:"廉頗負荊請罪",grade:"中平",poem:"知錯能改善莫大\n負荊請罪顯胸懷\n將相和好共報國\n君子相交淡如水",interp:"勇於承認錯誤是真正的勇氣。此刻或有需要放下面子、主動和解的處境，放下驕傲展現大度，反而贏得更多的尊重與信任。"},
+{n:71,title:"藺相如完璧歸趙",grade:"上上",poem:"智勇雙全護國寶\n完璧歸趙揚威名\n以理折人非以力\n大丈夫本色分明",interp:"以智謀取勝，以理服人。此籤大吉，提示憑藉智慧與膽識能化解強敵，所求之事終能完整保全，光明正大令人欽佩。"},
+{n:72,title:"劉備三顧茅廬",grade:"中",poem:"禮賢下士求賢才\n三顧茅廬誠意來\n臥龍出山展宏圖\n君臣際遇共大業",interp:"誠心誠意，不輕易放棄，終能感動對方。所求之事或人，需要展示真誠與耐心，多方努力，貴人終將被真心打動而出現相助。"},
+{n:73,title:"諸葛亮草船借箭",grade:"上",poem:"妙算神機出奇謀\n借力使力真高手\n十萬羽箭一夕得\n智慧謀略勝萬軍",interp:"善用環境與形勢，借力使力，以最小代價換取最大成果。此刻以謀取勝，善用現有資源與條件，必能出奇制勝，事半功倍。"},
+{n:74,title:"諸葛亮空城退敵",grade:"中平",poem:"險中求勝膽識超\n空城撫琴退敵兵\n虛實之間見高下\n鎮定從容勝萬千",interp:"此籤提示以鎮定之心化解危機。面對壓力或威脅，保持鎮定，不露慌亂之色，反而讓對方疑慮退縮，從容應對是化險為夷的關鍵。"},
+{n:75,title:"馬謖失守街亭",grade:"下",poem:"輕敵冒進釀大禍\n街亭失守悔已遲\n用人不當誤全局\n謹慎行事是良規",interp:"此籤示警，驕傲輕敵將導致失敗。切勿自以為是，不聽他人建議，用人或決策需再三謹慎，一步失誤可能導致全盤受損。"},
+{n:76,title:"劉關張桃園三結義",grade:"上上",poem:"桃園結義情義深\n生死與共志同心\n兄弟齊心力斷金\n共創大業垂千古",interp:"義氣相交，同心協力，大吉之兆。此籤主合作與結盟，志同道合之人共謀大事，兄弟同心其利斷金，共創的事業將流傳千古。"},
+{n:77,title:"關羽過五關斬六將",grade:"中上",poem:"忠義千秋貫日月\n過關斬將志不移\n千里尋兄情意切\n義薄雲天萬古名",interp:"懷抱忠義之心，縱有千難萬阻也擋不住腳步。所行之路雖有重重關卡，但以堅定的意志與情義突破，終能完成使命，義名遠揚。"},
+{n:78,title:"趙子龍單騎救主",grade:"中",poem:"一騎當千膽氣豪\n長坂坡上救幼主\n忠心護主出重圍\n義士風骨萬古揚",interp:"以一己之力守護重要之人或事，雖孤身犯難，忠義之氣令人無法阻擋。此刻需要孤注一擲的勇氣，以真心守護最重要的人與事。"},
+{n:79,title:"張飛當陽橋怒吼",grade:"平",poem:"一聲怒吼震山河\n萬馬齊喑不敢過\n英雄氣概驚天地\n當陽橋頭立奇功",interp:"聲勢驚人，一時震懾四方。此刻展現出的氣勢與決心令人側目，但需注意火氣過盛反而嚇跑貴人，剛柔相濟方能長久守住成果。"},
+{n:80,title:"諸葛亮七擒孟獲",grade:"中上",poem:"攻心為上攻城次\n七擒七縱服人心\n恩威並施收人望\n以德服人功業成",interp:"以德服人勝於以力壓人。此籤提示攻心策略，真正折服對方需要讓對方心悅誠服，恩威並施，以誠意與包容才能建立長久的信任。"},
+{n:81,title:"周瑜赤壁借東風",grade:"上上",poem:"借得東風展奇謀\n赤壁一戰定天下\n天時地利人和備\n此去前程萬里光",interp:"天時地利人和俱備，此乃建立大功業的最佳時機。善用眼前的一切有利條件，乘風破浪，此去必能扭轉乾坤，前途光明萬里。"},
+{n:82,title:"吳越興亡春秋",grade:"中",poem:"興亡成敗轉頭空\n青山依舊夕陽紅\n幾度滄桑憑弔處\n守分安心度平生",interp:"世事無常，繁華難以持久。此籤提示放開對成敗得失的執著，以平常心面對起伏，守住本分，安心過好當下，自有平靜自在。"},
+{n:83,title:"漢武帝開疆拓土",grade:"上",poem:"雄才大略展宏圖\n開疆拓土威四方\n積極進取勢如虹\n千秋功業自此立",interp:"雄心壯志，大有可為。此時是積極進取、開拓版圖的好時機，憑藉雄才大略乘勢而起，功業將從此奠定，千秋留名指日可待。"},
+{n:84,title:"班超投筆從戎",grade:"中平",poem:"投筆從戎志凌雲\n不入虎穴焉得虎\n轉換跑道展才能\n男兒當有凌雲志",interp:"有時需要放棄舒適的選擇，勇敢投身未知的挑戰。此刻或面臨轉換跑道的抉擇，勇敢跨出舒適圈，方能實現更大的人生格局。"},
+{n:85,title:"蔡文姬歸漢",grade:"中上",poem:"異鄉漂泊終歸處\n思鄉之情日夜牽\n一朝歸來骨肉聚\n悲歡離合有定數",interp:"流離之後終有歸處，離散的緣分有再聚之日。此籤對異鄉漂泊或與家人分離者有特別指引，緣分未斷，終將重聚，安心等待。"},
+{n:86,title:"呂布鳳儀亭失節",grade:"下",poem:"英雄難過美人關\n情迷意亂誤前程\n有勇無謀終悔恨\n莫為兒女誤大事",interp:"警示感情或誘惑可能使人迷失方向。此刻需特別警惕情感或慾望的牽絆，保持清醒頭腦，莫讓一時衝動或迷戀毀掉辛苦的積累。"},
+{n:87,title:"唐太宗貞觀之治",grade:"上上",poem:"聖君明主廣納諫\n貞觀盛世萬民樂\n寬仁愛民政清明\n千古英名傳不衰",interp:"廣納善言，寬仁待人，此乃盛世之象。此籤提示凡事以大局為重，廣開言路，以仁心行事，必能贏得眾人信任，成就美好事業。"},
+{n:88,title:"武則天登基稱帝",grade:"中",poem:"巾幗不讓鬚眉強\n意志堅定志難移\n功過是非任評說\n做好自己最重要",interp:"意志堅定，不懼世俗眼光。此刻需要拿出破釜沉舟的決心去追求目標，旁人的評論無需理會，做好自己所選擇的路，自有歷史公論。"},
+{n:89,title:"玄奘西天取經",grade:"中上",poem:"求法西行志堅定\n萬水千山不回頭\n取得真經傳東土\n功德無量澤萬世",interp:"立下宏大目標，百折不回。所求之事雖然艱辛漫長，但方向正確，一步一步堅持前行，最終必能達成，功德利益廣被眾生。"},
+{n:90,title:"安史之亂",grade:"平",poem:"亂世之中守本分\n韜光養晦避鋒芒\n是非之地莫久留\n靜待清平再出發",interp:"此時局勢動盪，是非複雜。低調行事，遠離是非漩渦，韜光養晦靜待時機，在亂世中守住根基，待局勢穩定再積極出發。"},
+{n:91,title:"宋仁宗廣開言路",grade:"中上",poem:"仁君納諫政清明\n廣開言路聽民聲\n以德治世眾心服\n千古仁政留美名",interp:"廣聽各方意見，以德服人。此籤提示不可獨斷獨行，多方聽取意見，以仁心謙遜應對，自然贏得眾人認可，成就清明政績。"},
+{n:92,title:"王安石變法",grade:"中",poem:"改革圖強志雖好\n急於求成反招禍\n新法雖善難推行\n時機未到莫強求",interp:"改革創新之心雖好，但操之過急反而弄巧成拙。此刻需要審時度勢，即便計畫再好，也需等待時機成熟，循序漸進推行。"},
+{n:93,title:"蘇東坡曠達人生",grade:"上上",poem:"曠達胸懷笑對天\n貶謫困境亦坦然\n詩詞書畫皆第一\n東坡居士美名傳",interp:"以曠達之心面對一切順逆，此乃最高境界。即便身處逆境，保持樂觀豁達，反而能開創出更多精彩，名聲與成就自然隨之而來。"},
+{n:94,title:"秦檜陷害岳飛",grade:"下",poem:"奸臣當道忠良冤\n莫須有罪害英賢\n惡人終有惡報時\n守正待時見公平",interp:"此籤警示身邊可能有小人構陷。切勿輕信表面和善之人，小心說話行事，保守秘密，守住正道，惡人終有報應，正義自有天理。"},
+{n:95,title:"辛棄疾報國無門",grade:"中平",poem:"報國無門空長嘆\n壯志難酬淚沾衫\n詞壇豪傑留千古\n轉換心境另開天",interp:"志向無法在此時此地伸展，宜轉換方向尋找出口。所求正途受阻，不妨另闢蹊徑，換一個方式展現才能，反而可能留下更深刻的成就。"},
+{n:96,title:"鄭和七下西洋",grade:"上",poem:"七下西洋展國威\n萬里海疆任縱橫\n友邦睦鄰傳美德\n四海揚名福祿豐",interp:"大開大合，縱橫四方，此乃大格局之象。此時適合擴大視野與版圖，向外拓展，廣結善緣，所到之處皆能展現實力，名聲遠播。"},
+{n:97,title:"于謙保衛北京",grade:"中上",poem:"危難之際顯忠心\n力排眾議保城池\n粉身碎骨渾不怕\n要留清白在人間",interp:"於危急關頭挺身而出，以公義凌駕個人安危。此刻雖面臨壓力與反對，只要行得正坐得直，挺身守護重要的人事物，清白自留。"},
+{n:98,title:"戚繼光抗倭衛國",grade:"中",poem:"戚家軍威震四方\n抗倭衛國守邊疆\n練兵有術紀律嚴\n忠勇報國美名揚",interp:"需要嚴格紀律與系統訓練才能成事。此刻所求之事需要有計畫有步驟地去執行，紀律與堅持是成功的關鍵，忠心用事終有成果。"},
+{n:99,title:"鄭成功收復台灣",grade:"上上",poem:"驅除外患復家園\n寶島台灣歸祖先\n忠義之名傳千古\n延平精神萬世仰",interp:"此籤大吉，象徵收復失去之物或實現重要目標。所求之事雖曾受阻，此刻天時已到，全力以赴必能奪回屬於自己的一切，名垂千古。"},
+{n:100,title:"觀音大士廣度眾生",grade:"上上",poem:"慈悲喜捨濟眾生\n千手千眼照十方\n有求必應善信者\n功德圓滿上蓮台",interp:"百籤終末，得觀音大士親臨之象，至吉至祥。心存慈悲，廣結善緣，所求之事觀音娘娘必親自護佑，功德圓滿，所願皆成。"},
+];
+
+// 等級顏色配置
+const GC={
+  "上上":{bg:"#C8971A",c:"#FFF8E0"},
+  "大吉":{bg:"#C8971A",c:"#FFF8E0"},
+  "上吉":{bg:"#B08010",c:"#FFF8E0"},
+  "上":{bg:"#A07820",c:"#FFF8E0"},
+  "上中":{bg:"#A07820",c:"#FFF8E0"},
+  "上平":{bg:"#907010",c:"#FFF8E0"},
+  "中上":{bg:"#7A5C1A",c:"#FFF8E0"},
+  "中":{bg:"#8B6914",c:"#FFF8E0"},
+  "中中":{bg:"#8B6914",c:"#FFF8E0"},
+  "中平":{bg:"#7A5010",c:"#FFF8E0"},
+  "平":{bg:"#6B4A1F",c:"#FFE8D0"},
+  "平平":{bg:"#6B4A1F",c:"#FFE8D0"},
+  "平中":{bg:"#6B4A1F",c:"#FFE8D0"},
+  "下":{bg:"#8B1A1A",c:"#FFE8D0"},
+  "下下":{bg:"#6B0A0A",c:"#FFE8D0"},
+};
+
+const STEMS=["甲","乙","丙","丁","戊","己","庚","辛","壬","癸"];
+const BRANCHES=["子","丑","寅","卯","辰","巳","午","未","申","酉","戌","亥"];
+const MONTHS=["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"];
+
+function initDate(){
+  const d=new Date();
+  const base=new Date(2024,0,1);
+  const diff=Math.floor((d-base)/86400000);
+  const si=(diff+40)%10,bi=(diff+12)%12;
+  const mi=d.getMonth()%10,mbi=d.getMonth()%12;
+  document.getElementById('dateDisplay').textContent=d.getFullYear()+"年 "+MONTHS[d.getMonth()]+" "+d.getDate()+"日";
+  document.getElementById('gzDisplay').textContent=STEMS[mi]+BRANCHES[mbi]+"月 "+STEMS[si]+BRANCHES[bi]+"日";
+}
+initDate();
+
+let selIntent="";
+function pickIntent(el,v){
+  selIntent=v;
+  document.querySelectorAll('.i-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function draw(){
+  const btn=document.getElementById('shakeBtn');
+  btn.classList.add('shaking');btn.disabled=true;
+  document.getElementById('rc').classList.remove('show');
+  const ld=document.getElementById('loadingMsg');ld.classList.add('show');
+  setTimeout(()=>{
+    btn.classList.remove('shaking');ld.classList.remove('show');
+    // 隨機從1-100抽一籤（不分類別篩選，觀音百籤是全運勢）
+    const o=ORACLES[Math.floor(Math.random()*ORACLES.length)];
+    const num=String(o.n).padStart(2,'0');
+    document.getElementById('rNum').textContent="第 "+num+" 籤";
+    document.getElementById('rBadgeNum').textContent=o.n;
+    document.getElementById('rStory').textContent="【"+o.title+"】";
+    document.getElementById('rTradPoem').textContent=o.poem;
+    document.getElementById('rInterp').textContent=o.interp;
+    const g=GC[o.grade]||GC["中平"];
+    const gb=document.getElementById('rGrade');
+    gb.textContent=o.grade+"籤";
+    gb.style.background=g.bg;gb.style.color=g.c;
+    // 所問類別顯示
+    const catLabel=selIntent?selIntent+"．觀音靈籤":"觀音靈籤";
+    document.getElementById('rCat').textContent=catLabel;
+    document.getElementById('rc').classList.add('show');
+    btn.disabled=false;
+  },1800);
+}
+
+function reset(){
+  document.getElementById('rc').classList.remove('show');
+  selIntent="";
+  document.querySelectorAll('.i-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('qText').value='';
+}
+</script>
+</body>
+</html>
